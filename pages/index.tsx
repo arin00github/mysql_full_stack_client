@@ -9,35 +9,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { putUserInfo } from "../redux/feature/auth";
 import axios from "axios";
 import { selectAuth } from "../redux/feature/auth/index";
+import { RootState } from "../redux/store";
+import { KeycloakInstance } from "keycloak-js";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const getKeycloak = useSelector(selectAuth);
+  const getKeycloak = useSelector<RootState, KeycloakInstance>(
+    (state) => state.users.keycloakInfo
+  );
+  //console.log(getKeycloak.tokenParsed.preferred_username);
 
   const [name, setName] = useState("");
-
-  const handleChange = (e) => {
-    e.preventDefault();
-    setName(e.target.value);
-  };
-  const loginName = async (e) => {
-    console.log(name);
-    e.preventDefault();
-    await axios(`http://localhost:4200/api/auth/login`, {
-      method: "POST",
-      data: {
-        name: name,
-      },
-    })
-      .then((rslt) => {
-        console.log("success login inner");
-        console.log(rslt);
-        dispatch(putUserInfo(rslt.data));
-      })
-      .catch((err) => console.log(err));
-
-    //console.log(getKeycloak.keycloak);
-  };
 
   return (
     <div>
@@ -48,21 +30,19 @@ export default function Home() {
       </Head>
 
       <div className="container mt-3">
-        <Form
+        <div
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             height: "100vh",
           }}
-          onSubmit={loginName}
         >
-          <Form.Group>
-            <Form.Label>이름</Form.Label>
-            <Form.Control name="name" value={name} onChange={handleChange} />
-            <input type="submit" value="데이터확인" />
-          </Form.Group>
-        </Form>
+          <h3>
+            {getKeycloak && getKeycloak.tokenParsed.preferred_username}님
+            안녕하세요
+          </h3>
+        </div>
       </div>
     </div>
   );

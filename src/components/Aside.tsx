@@ -19,13 +19,23 @@ export default function Aside({ handleLogout }: IAsideProps) {
           </Link>
         </li>
         <li>
-          <Link href="/view/Page01">
-            <a href="/view/Page01">Page01</a>
+          <Link href="/view/add-users">
+            <a href="/view/add-users">add-users</a>
           </Link>
         </li>
         <li>
-          <Link href="/view/Page02">
-            <a href="/view/Page02">Page02</a>
+          <Link href="/view/add-bootcamp">
+            <a href="/view/add-bootcamp">add-bootcamp</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/view/add-review">
+            <a href="/view/add-review">add-review</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/view/readData">
+            <a href="/view/readData">readData</a>
           </Link>
         </li>
       </ul>

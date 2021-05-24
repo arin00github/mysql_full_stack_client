@@ -1,27 +1,32 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 import { Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { selectKeycloak } from "../../redux/feature/auth";
+import { useDispatch, useSelector } from "react-redux";
 import Aside from "./Aside";
 import Main from "./Main";
 import { selectAuth } from "../../redux/feature/auth/index";
+import { logOutAction } from "../../redux/actions/users-action";
+import users from "../../redux/slices/users-slice";
+import { RootState } from "../../redux/store";
 
 export interface ILayoutProps {
   children: ReactNode;
 }
 
 export default function Layout({ children }: ILayoutProps) {
-  const logoutUrl = {
-    realms: "arin-world",
-  };
+  const dispatch = useDispatch();
 
-  const getKeycloak = useSelector(selectAuth);
-  //console.log(getKeycloak);
+  const getKeycloak = useSelector<RootState, any>((state) => state.users);
+  console.log(getKeycloak);
+
+  const handleLogout = () => {
+    dispatch(logOutAction);
+    getKeycloak.keycloak.logout();
+  };
 
   return (
     <div id="wrap">
-      <Aside handleLogout={() => getKeycloak.keycloak.logout()} />
+      <Aside handleLogout={() => handleLogout()} />
       <Main>{children}</Main>
     </div>
   );

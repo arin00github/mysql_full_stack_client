@@ -5,7 +5,7 @@ import { AppContext, AppProps } from "next/app";
 import Layout from "../src/components/Layout";
 
 import KeycloakComponent from "../src/components/keycloakComponent";
-import { wrapper } from "../redux/store";
+import wrapper from "../redux/store";
 
 const keycloakCfg: Keycloak.KeycloakConfig = {
   realm: "arin-world",

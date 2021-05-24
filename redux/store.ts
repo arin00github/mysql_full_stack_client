@@ -1,74 +1,31 @@
-import { createStore, AnyAction, Store, Action } from "redux";
-import { combineReducers, ThunkAction } from "@reduxjs/toolkit";
-import { createWrapper, Context, HYDRATE } from "next-redux-wrapper";
-import countReducer from "./feature/count";
-import authReducer from "./feature/auth";
+import {
+  configureStore,
+  getDefaultMiddleware,
+  EnhancedStore,
+} from "@reduxjs/toolkit";
 
-export interface State {
-  server: any;
-  client: any;
-}
+import { createWrapper, MakeStore } from "next-redux-wrapper";
 
-const combinedReducer = combineReducers({
-  count: countReducer,
-  auth: authReducer,
+import slices from "./slices";
+
+const devMode = process.env.NODE_ENV === "development";
+
+const store = configureStore({
+  reducer: slices,
+  middleware: [
+    ...getDefaultMiddleware({
+      serializableCheck: false, // 직렬화 미들웨어 체크
+    }),
+  ],
+  devTools: devMode,
 });
 
-const reducer = (state, action) => {
-  if (action.type === HYDRATE) {
-    const nextState = {
-      ...state, // use previous state
-      ...action.payload, // apply delta from hydration
-    };
-    if (state.count) nextState.count = state.count; // preserve count value on client side navigation
-    return nextState;
-  } else {
-    return combinedReducer(state, action);
-  }
-};
+const setupStore = (context: any): EnhancedStore => store;
 
-// const reducer = (state: State = {tick:'init'}, action: AnyAction) => {
-//   switch(action.type){
-//     case HYDRATE:
-//       return {
-//         ...state,
-//         server: {
-//           ...state.server,
-//           ...action.payload.server
-//         }
-//       }
-//     case 'SERVER_ACTION':
-//       return {
-//         ...state,
-//         server: {
-//           ...state.server,
-//           tick: action.payload
-//         }
-//       };
-//     case 'CLIENT_ACTION':
-//      return {
-//        ...state,
-//        client: {
-//          ...state.client,
-//          tick: action.payload
-//        }
-//      }
-//     default:
-//       return state;
-//   }
-// }
+const makeStore: MakeStore = (context) => setupStore(context);
 
-// create a makeStore function
-const makeStore = (context: Context) => createStore(reducer);
+const wrapper = createWrapper(makeStore, { debug: devMode });
 
-export type AppStore = ReturnType<typeof makeStore>;
-export type AppState = ReturnType<AppStore["getState"]>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  AppState,
-  unknown,
-  Action
->;
-
-// export an assembled wrapper
-export const wrapper = createWrapper<AppStore>(makeStore, { debug: true });
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export default wrapper;

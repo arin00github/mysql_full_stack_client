@@ -86,3 +86,14 @@ a{
 color: white;
 text-decoration: none;
 }
+
+
+
+
+#add-data .form-group {
+  margin-bottom: 10px;
+}
+
+#add-data .form-group .form-check {
+  margin-right: 15px;
+}

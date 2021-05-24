@@ -1,6 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { KeycloakInstance } from "keycloak-js";
+import { HYDRATE } from "next-redux-wrapper";
 
+const hydrate = createAction(HYDRATE);
 export interface IUserProps {
   name: string;
   email: string;
@@ -39,6 +41,16 @@ const authSlice = createSlice({
       ...state,
       user: action.payload,
     }),
+  },
+  extraReducers(builder) {
+    builder.addCase(hydrate, (state, action: PayloadAction<any>) => {
+      console.log("addCase_hydrate", action.payload);
+      console.log("hydrate_state", state);
+      return {
+        ...state,
+        ...(action.payload as any)[authSlice.name],
+      };
+    });
   },
 });
 

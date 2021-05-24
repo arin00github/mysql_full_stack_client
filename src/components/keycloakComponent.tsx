@@ -1,8 +1,14 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useStore } from "react-redux";
 import { putKeycloakTotal } from "../../redux/feature/auth";
 import { keycloak } from "../utils/setting_keyclock";
+import {
+  keycloakLogInAction,
+  logInAction,
+} from "../../redux/actions/users-action";
+import { KeycloakInstance } from "keycloak-js";
+import { getUserLogin } from "../../redux/actions/users-action";
 
 export interface KeycloakProps {
   children: ReactNode;
@@ -11,7 +17,7 @@ export interface KeycloakProps {
 export const Keycloak =
   typeof window !== "undefined" ? require("keycloak-js") : null;
 
-export default function KeycloakComponent({ children }: KeycloakProps) {
+function KeycloakComponent({ children }: KeycloakProps) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [keyinfo, setKeyInfo] = useState({
@@ -33,12 +39,17 @@ export default function KeycloakComponent({ children }: KeycloakProps) {
           });
           KeyclockInstance.login;
           //console.log(KeyclockInstance);
-          dispatch(putKeycloakTotal(KeyclockInstance));
+          dispatch(keycloakLogInAction(KeyclockInstance));
+          dispatch(logInAction(true));
+          //dispatch(getUserLogin))
         })
         .catch((err) => {
           console.log(err);
           router.push({ pathname: "/404", query: { message: err } });
         });
+      //const findname = KeyclockInstance.tokenParsed.preferred_username;
+
+      //dispatch(getUserLogin(findname));
     } else {
     }
   };
@@ -55,3 +66,5 @@ export default function KeycloakComponent({ children }: KeycloakProps) {
 
   return <div>Initialize Keyclock</div>;
 }
+
+export default KeycloakComponent;

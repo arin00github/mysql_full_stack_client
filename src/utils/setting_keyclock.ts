@@ -3,9 +3,9 @@ import { KeycloakInstance } from "keycloak-js";
 const Keycloak = typeof window !== "undefined" ? require("keycloak-js") : null;
 
 let keyClockConfig: Keycloak.KeycloakConfig = {
-  realm: "arin-world",
+  realm: "coffee",
   url: "http://localhost:8080/auth",
-  clientId: "arin-client",
+  clientId: "latte-client",
 };
 
 export const keycloak: KeycloakInstance =
