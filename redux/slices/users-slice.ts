@@ -1,15 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../../src/interface/user-interface";
-import {
-  logInAction,
-  keycloakLogInAction,
-  logOutAction,
-} from "../actions/users-action";
+import { IUserCollect, IUserProfile } from "../../src/interface/user-interface";
+import { getUserAction, userListAction } from "../actions/users-action";
 
-const initialState: IUser = {
-  isLoggedIn: false,
-  user: null,
-  keycloakInfo: null,
+const initialState: IUserCollect = {
+  userInfo: {
+    name: "",
+    email: "",
+    role: "",
+    active: false,
+    createdAt: null,
+    updateAt: null,
+  },
 };
 
 export const users = createSlice({
@@ -18,21 +19,12 @@ export const users = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     builder
-      .addCase(logInAction.pending, (state, action) => {})
-      .addCase(logInAction.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isLoggedIn = true;
+      .addCase(getUserAction.pending, (state, action) => {})
+      .addCase(getUserAction.fulfilled, (state, action) => {
+        console.log("action/getUserAction", action);
+        state.userInfo = action.payload;
       })
-      .addCase(logInAction.rejected, (state, action) => {})
-      .addCase(keycloakLogInAction.pending, (state, action) => {})
-      .addCase(keycloakLogInAction.fulfilled, (state, action) => {
-        state.keycloakInfo = action.payload;
-        state.isLoggedIn = true;
-      })
-      .addCase(keycloakLogInAction.rejected, (state, action) => {})
-      .addCase(logOutAction.pending, (state, action) => {})
-      .addCase(logOutAction.fulfilled, (state, action) => {})
-      .addCase(logOutAction.rejected, (state, action) => {})
+      .addCase(getUserAction.rejected, (state, action) => {})
       .addDefaultCase(() => {}),
 });
 

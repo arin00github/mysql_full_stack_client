@@ -3,12 +3,14 @@ import { ReactNode, useEffect, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { putKeycloakTotal } from "../../redux/feature/auth";
 import { keycloak } from "../utils/setting_keyclock";
-import {
-  keycloakLogInAction,
-  logInAction,
-} from "../../redux/actions/users-action";
 import { KeycloakInstance } from "keycloak-js";
-import { getUserLogin } from "../../redux/actions/users-action";
+
+import {
+  AuthloginAction,
+  KeycloakAction,
+} from "../../redux/actions/auth-action";
+import { getUserAction } from "../../redux/actions/users-action";
+import { AuthTokenAction } from "../../redux/actions/auth-action";
 
 export interface KeycloakProps {
   children: ReactNode;
@@ -39,9 +41,12 @@ function KeycloakComponent({ children }: KeycloakProps) {
           });
           KeyclockInstance.login;
           //console.log(KeyclockInstance);
-          dispatch(keycloakLogInAction(KeyclockInstance));
-          dispatch(logInAction(true));
-          //dispatch(getUserLogin))
+          dispatch(KeycloakAction(KeyclockInstance)); // keycloak 인스턴스  redux 저장
+          dispatch(AuthloginAction(true)); //isLogined true
+          dispatch(AuthTokenAction(KeyclockInstance.token));
+          const targetName = KeyclockInstance.tokenParsed.preferred_username;
+          console.log("targetName", targetName);
+          dispatch(getUserAction(targetName));
         })
         .catch((err) => {
           console.log(err);
