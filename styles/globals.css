@@ -65,6 +65,9 @@ a{
 #wrap #main {
   width: calc(100% - 300px);
   flex-basis: calc(100% - 300px);
+  height: 100vh;
+  min-height: 100vh;
+  overflow-y: scroll;
 }
 
 #aside .profile {
@@ -76,16 +79,25 @@ a{
   border-top: 1px solid white;
 }
 #aside .nav li{
-  line-height: 3rem;
-  height: 3rem;
+  line-height: 2.7rem;
+  height: 2.7rem;
   padding-left: 30px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  font-size: 14px;
 }
 
 #aside .nav li a{
 color: white;
 text-decoration: none;
 }
+#aside .nav li.subject{
+  height: 3.5rem;
+  line-height: 3.5rem;
+}
+#aside .nav li.subject a, #aside .nav li.subject{
+  font-weight: 700;
+  font-size: 17px;
+} 
 
 
 
@@ -96,4 +108,9 @@ text-decoration: none;
 
 #add-data .form-group .form-check {
   margin-right: 15px;
+}
+
+.map svg {
+  display: inline-block;
+  vertical-align: middle;
 }
