@@ -1,4 +1,4 @@
-import Utils from "../../../src/utils/utils";
+import Utils from "../common/utils";
 import { ICommonCommand } from "../../../src/interface/common-interface";
 import { Response, ResultMessage } from "../common/result-process";
 import { RestProcess } from "../common/rest-process";

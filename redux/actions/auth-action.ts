@@ -1,8 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IAuthInfo } from "../../src/interface/auth-interface";
 
-import { IUser } from "../../src/interface/user-interface";
-
 interface rejectMessage {
   errorMessage: string;
 }

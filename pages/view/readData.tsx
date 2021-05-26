@@ -1,12 +1,6 @@
-import { Router, useRouter } from "next/router";
-import { selectAuth } from "../../redux/feature/auth/index";
 import { useDispatch, useSelector } from "react-redux";
-import wrapper, { RootState } from "../../redux/store";
+import wrapper, { RootState } from "../../redux/store3";
 
-import { NextPage } from "next";
-import { addCount, selectCount } from "../../redux/feature/count/index";
-import { IUserProfile } from "../../src/interface/user-interface";
-import { getUserAction } from "../../redux/actions/users-action";
 import { useEffect } from "react";
 import { CommonService } from "../api/services/common-service";
 import { IAuthInfo } from "../../src/interface/auth-interface";
@@ -16,8 +10,6 @@ export default function ReadData() {
     (state) => state.auth.token
   );
   console.log(tokenState);
-
-  const router = useRouter();
 
   const getUserListAPI = async () => {
     const rlst = await CommonService.instance.getUserList();

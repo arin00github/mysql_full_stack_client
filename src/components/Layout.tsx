@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Aside from "./Aside";
 import Main from "./Main";
 import { selectAuth } from "../../redux/feature/auth/index";
-import { logOutAction } from "../../redux/actions/users-action";
+
 import users from "../../redux/slices/users-slice";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../redux/store3";
+import { AuthlogoutAction } from "../../redux/actions/auth-action";
 
 export interface ILayoutProps {
   children: ReactNode;
@@ -20,7 +21,7 @@ export default function Layout({ children }: ILayoutProps) {
   console.log(getKeycloak);
 
   const handleLogout = () => {
-    dispatch(logOutAction);
+    dispatch(AuthlogoutAction);
     getKeycloak.keycloak.logout();
   };
 

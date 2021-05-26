@@ -2,15 +2,16 @@ import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { putKeycloakTotal } from "../../redux/feature/auth";
-import { keycloak } from "../utils/setting_keyclock";
+import { keycloak } from "../../pages/api/common/setting_keyclock";
 import { KeycloakInstance } from "keycloak-js";
 
 import {
   AuthloginAction,
   KeycloakAction,
 } from "../../redux/actions/auth-action";
-import { getUserAction } from "../../redux/actions/users-action";
+
 import { AuthTokenAction } from "../../redux/actions/auth-action";
+import { fetchUser } from "../../redux/slices/users-slice";
 
 export interface KeycloakProps {
   children: ReactNode;
@@ -46,7 +47,7 @@ function KeycloakComponent({ children }: KeycloakProps) {
           dispatch(AuthTokenAction(KeyclockInstance.token));
           const targetName = KeyclockInstance.tokenParsed.preferred_username;
           console.log("targetName", targetName);
-          dispatch(getUserAction(targetName));
+          dispatch(fetchUser(targetName));
         })
         .catch((err) => {
           console.log(err);

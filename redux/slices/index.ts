@@ -1,4 +1,4 @@
-import { IUser } from "../../src/interface/user-interface";
+import { IUserCollect } from "../../src/interface/user-interface";
 import users from "./users-slice";
 import auth from "./auth-slice";
 import { HYDRATE } from "next-redux-wrapper";
@@ -6,7 +6,7 @@ import { AnyAction, combineReducers } from "redux";
 import { IAuthInfo } from "../../src/interface/auth-interface";
 
 export interface State {
-  users: IUser;
+  users: IUserCollect;
   auth: IAuthInfo;
 }
 
@@ -25,5 +25,7 @@ const rootReducer = (state: State | undefined, action: AnyAction) => {
     }
   }
 };
+//이 유형은rootReducer에서 반환되는 모든 유형입니다
+export type RootState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;

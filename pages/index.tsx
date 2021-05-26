@@ -1,19 +1,11 @@
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
-import { useRouter } from "next/router";
 
-import { Button, Form } from "react-bootstrap";
-import wrapper from "./_app";
 import { useDispatch, useSelector } from "react-redux";
-import { putUserInfo } from "../redux/feature/auth";
-import axios from "axios";
-import { selectAuth } from "../redux/feature/auth/index";
-import { RootState } from "../redux/store";
+import { RootState } from "../redux/store3";
 import { KeycloakInstance } from "keycloak-js";
 
 export default function Home() {
-  const dispatch = useDispatch();
   const getKeycloak = useSelector<RootState, KeycloakInstance>(
     (state) => state.users.keycloakInfo
   );

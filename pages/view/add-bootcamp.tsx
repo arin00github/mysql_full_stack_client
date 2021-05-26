@@ -4,7 +4,7 @@ import Axios from "axios";
 import { useRouter } from "next/router";
 
 import { Button, Form, FormCheck } from "react-bootstrap";
-import { wrapper } from "../../redux/store2";
+import { wrapper } from "../../redux/store";
 
 import { useSelector } from "react-redux";
 

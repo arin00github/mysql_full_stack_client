@@ -1,31 +1,62 @@
 import {
-  configureStore,
-  getDefaultMiddleware,
-  EnhancedStore,
-} from "@reduxjs/toolkit";
+  createStore,
+  AnyAction,
+  Store,
+  Action,
+  applyMiddleware,
+  Middleware,
+  StoreEnhancer,
+} from "redux";
+import { combineReducers, ThunkAction } from "@reduxjs/toolkit";
+import { createWrapper, Context, HYDRATE, MakeStore } from "next-redux-wrapper";
 
-import { createWrapper, MakeStore } from "next-redux-wrapper";
+import rootReducer, { RootState } from "./slices/index";
+import thunkMiddleware from "redux-thunk";
+import users from "./slices/users-slice";
+import auth from "./slices/auth-slice";
 
-import slices from "./slices";
+const bindMiddleWare = (middleware: Middleware[]): StoreEnhancer => {
+  // Middleware, StoreEnhancer등을 정의해 주지 않으면 스프레드문법을 쓸 수 없다고 나온다.
+  if (process.env.NODE_ENV !== "production") {
+    const { composeWithDevTools } = require("redux-devtools-extension");
+    return composeWithDevTools(applyMiddleware(...middleware));
+  } else {
+    return applyMiddleware(...middleware);
+  }
+};
 
-const devMode = process.env.NODE_ENV === "development";
+const makeStore = ({ isServer }: any) => {
+  if (isServer) {
+    return createStore(rootReducer, bindMiddleWare([thunkMiddleware]));
+  } else {
+    const {
+      persistStore,
+      persistReducer,
+      autoRehydrate,
+    } = require("redux-persist");
+    const storage = require("redux-persist/lib/storage/session").default;
 
-const store = configureStore({
-  reducer: slices,
-  middleware: [
-    ...getDefaultMiddleware({
-      serializableCheck: false, // 직렬화 미들웨어 체크
-    }),
-  ],
-  devTools: devMode,
-});
+    const persistConfig = {
+      key: "nextjs",
+      whitelist: [users, auth],
+      storage,
+    };
+    const persistedReducer = persistReducer(persistConfig, rootReducer);
+    const store: any = createStore(
+      // any로 값을 주어서 type의 제한을 푼다
+      persistedReducer,
+      {},
+      bindMiddleWare([thunkMiddleware])
+    );
+    store.__persistor = persistStore(store);
 
-const setupStore = (context: any): EnhancedStore => store;
+    return store;
+  }
+};
 
-const makeStore: MakeStore = (context) => setupStore(context);
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore["getState"]>;
+export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 
-const wrapper = createWrapper(makeStore, { debug: devMode });
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-export default wrapper;
+// export an assembled wrapper
+export const wrapper = createWrapper(makeStore, { debug: true });

@@ -1,4 +1,4 @@
-import Utils from "../../../src/utils/utils";
+import Utils from "./utils";
 
 type ENABLE_METHOD = "GET" | "POST" | "PUT" | "DELETE";
 
