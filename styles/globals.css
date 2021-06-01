@@ -114,3 +114,11 @@ text-decoration: none;
   display: inline-block;
   vertical-align: middle;
 }
+
+#canvas{
+  position: relative;
+}
+
+#canvas #tooltip{
+  position: absolute;
+}

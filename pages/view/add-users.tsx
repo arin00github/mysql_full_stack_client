@@ -7,6 +7,7 @@ import { Button, Form, FormCheck } from "react-bootstrap";
 import { wrapper } from "../../redux/store";
 
 import { useSelector } from "react-redux";
+import { CommonService } from "../api/services/common-service";
 
 export default function Page01({ props }) {
   //const getUser = useSelector(selectUser);
@@ -66,6 +67,11 @@ export default function Page01({ props }) {
     setForm(resetValue);
   };
 
+  const getUserListAPI = async () => {
+    const rlst = await CommonService.instance.getUserList();
+    console.log("getUserListAPI", rlst);
+  };
+
   const handleDelete = async (e: any, userid: string) => {
     e.preventDefault();
     await Axios(`http://localhost:4200/api/users/delete`, {
@@ -80,9 +86,9 @@ export default function Page01({ props }) {
     });
   };
 
-  // useEffect(() => {
-  //   readData();
-  // }, []);
+  useEffect(() => {
+    getUserListAPI();
+  }, []);
 
   return (
     <div>
@@ -94,76 +100,85 @@ export default function Page01({ props }) {
 
       <div className="container" id="add-data">
         <h2 className="text-center mt-5 ">ADD DATA</h2>
-        <div className="d-flex justify-content-center mt-3">
-          <Form style={{ width: "420px" }} onSubmit={addData}>
-            <Form.Group controlId="name">
-              <Form.Label>name</Form.Label>
-              <Form.Control
-                name="name"
-                value={form.name}
-                onChange={handleChange}
+        <div className="d-flex">
+          <div className="d-flex justify-content-center mt-3">
+            <Form style={{ width: "420px" }} onSubmit={addData}>
+              <Form.Group controlId="name">
+                <Form.Label>name</Form.Label>
+                <Form.Control
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="email">
+                <Form.Label>email</Form.Label>
+                <Form.Control
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="active">
+                <Form.Label>active</Form.Label>
+                <div className="d-flex">
+                  <FormCheck
+                    type="radio"
+                    label="active"
+                    value="active"
+                    checked={form.active == "active"}
+                    onChange={handleCheck}
+                    name="active"
+                  />
+                  <FormCheck
+                    type="radio"
+                    label="inactive"
+                    value="inactive"
+                    checked={form.active == "inactive"}
+                    onChange={handleCheck}
+                    name="active"
+                  />
+                </div>
+              </Form.Group>
+              <Form.Group controlId="role">
+                <Form.Label>role</Form.Label>
+                <div className="d-flex">
+                  <FormCheck
+                    type="radio"
+                    label="user"
+                    value="user"
+                    checked={form.role == "user"}
+                    onChange={handleChange}
+                    name="role"
+                  />
+                  <FormCheck
+                    type="radio"
+                    label="partner"
+                    value="partner"
+                    checked={form.role == "partner"}
+                    onChange={handleChange}
+                    name="role"
+                  />
+                  <FormCheck
+                    type="radio"
+                    label="manager"
+                    value="manager"
+                    checked={form.role == "manager"}
+                    onChange={handleChange}
+                    name="role"
+                  />
+                </div>
+              </Form.Group>
+              <input
+                type="submit"
+                value="register"
+                className="btn btn-primary"
               />
-            </Form.Group>
-            <Form.Group controlId="email">
-              <Form.Label>email</Form.Label>
-              <Form.Control
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="active">
-              <Form.Label>active</Form.Label>
-              <div className="d-flex">
-                <FormCheck
-                  type="radio"
-                  label="active"
-                  value="active"
-                  checked={form.active == "active"}
-                  onChange={handleCheck}
-                  name="active"
-                />
-                <FormCheck
-                  type="radio"
-                  label="inactive"
-                  value="inactive"
-                  checked={form.active == "inactive"}
-                  onChange={handleCheck}
-                  name="active"
-                />
-              </div>
-            </Form.Group>
-            <Form.Group controlId="role">
-              <Form.Label>role</Form.Label>
-              <div className="d-flex">
-                <FormCheck
-                  type="radio"
-                  label="user"
-                  value="user"
-                  checked={form.role == "user"}
-                  onChange={handleChange}
-                  name="role"
-                />
-                <FormCheck
-                  type="radio"
-                  label="partner"
-                  value="partner"
-                  checked={form.role == "partner"}
-                  onChange={handleChange}
-                  name="role"
-                />
-                <FormCheck
-                  type="radio"
-                  label="manager"
-                  value="manager"
-                  checked={form.role == "manager"}
-                  onChange={handleChange}
-                  name="role"
-                />
-              </div>
-            </Form.Group>
-            <input type="submit" value="register" className="btn btn-primary" />
-          </Form>
+            </Form>
+          </div>
+          <div style={{ marginLeft: "30px" }}>
+            <ul></ul>
+          </div>
         </div>
       </div>
     </div>

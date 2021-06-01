@@ -223,15 +223,15 @@ export default class Utils {
     body: any,
     realm: string
   ): any {
-    const reqVersion = process.env.REACT_APP_X_API_VERSION
-      ? process.env.REACT_APP_X_API_VERSION
+    const reqVersion = process.env.NEXT_APP_X_API_VERSION
+      ? process.env.NEXT_APP_X_API_VERSION
       : "";
     const reqDate = new Date().toUTCString();
     let reqContentType;
     if (method === "GET" || !body) {
       reqContentType = "";
     } else {
-      reqContentType = process.env.REACT_APP_CONTENT_TYPE;
+      reqContentType = process.env.NEXT_APP_CONTENT_TYPE;
     }
     const xAuthToken = this.getNonAuthToken(method, url, body, realm);
 

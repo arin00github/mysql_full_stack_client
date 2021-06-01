@@ -11,10 +11,6 @@ export default function ReadData() {
   );
   console.log(tokenState);
 
-  const getUserListAPI = async () => {
-    const rlst = await CommonService.instance.getUserList();
-  };
-
   useEffect(() => {}, []);
 
   return (
