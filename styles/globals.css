@@ -47,6 +47,13 @@ a{
   text-decoration: none;
 }
 
+/*****  Common Class ******/
+
+
+.w-100{
+  width: 100%;
+}
+
 
 #wrap {
   width: 100%;
@@ -108,6 +115,16 @@ text-decoration: none;
 
 #add-data .form-group .form-check {
   margin-right: 15px;
+}
+
+.container table tr{
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+.container table tr th{
+  font-weight: bold;
 }
 
 .map svg {

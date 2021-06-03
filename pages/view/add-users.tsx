@@ -8,6 +8,8 @@ import { wrapper } from "../../redux/store";
 
 import { useSelector } from "react-redux";
 import { CommonService } from "../api/services/common-service";
+import { IAuthInfo } from "../../src/interface/auth-interface";
+import { IUserProfile } from "../../src/interface/user-interface";
 
 export default function Page01({ props }) {
   //const getUser = useSelector(selectUser);
@@ -19,8 +21,13 @@ export default function Page01({ props }) {
     role: "user",
   };
 
+  const bringToken = useSelector((state: { auth: IAuthInfo }) => state.auth);
+  //console.log("bringToken", bringToken.token);
+
   const router = useRouter();
   const [form, setForm] = useState(resetValue);
+
+  const [userList, setUserList] = useState<IUserProfile[]>([]);
 
   const handleChange = (e) => {
     setForm({
@@ -40,36 +47,55 @@ export default function Page01({ props }) {
     return value === "active" ? true : false;
   };
 
-  const addData = async (e) => {
-    e.preventDefault();
+  // const addData = async (e) => {
+  //   e.preventDefault();
+  //   const { name, email, role, active } = form;
+
+  //   const result = await Axios(`http://localhost:4200/api/users/add`, {
+  //     //axios는 무조건 풀로 주소를 넣어야 한다.
+  //     method: "POST",
+  //     data: {
+  //       name: name,
+  //       email: email,
+  //       role: role,
+  //       active: getActiveBoolean(active),
+  //     },
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res.headers);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       router.push({ pathname: "/404", query: { message: err } });
+  //     });
+  //   setForm(resetValue);
+  // };
+
+  const addUserOneAPI = async () => {
     const { name, email, role, active } = form;
 
-    const result = await Axios(`http://localhost:4200/api/users/add`, {
-      //axios는 무조건 풀로 주소를 넣어야 한다.
-      method: "POST",
-      data: {
+    await CommonService.instance.addUserList(
+      {
         name: name,
         email: email,
         role: role,
         active: getActiveBoolean(active),
       },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        console.log(res.headers);
-      })
-      .catch((err) => {
-        console.log(err);
-        router.push({ pathname: "/404", query: { message: err } });
-      });
-    setForm(resetValue);
+      bringToken.token
+    );
   };
 
   const getUserListAPI = async () => {
-    const rlst = await CommonService.instance.getUserList();
-    console.log("getUserListAPI", rlst);
+    const rlst = await CommonService.instance.getUserList(bringToken.token);
+    //console.log("getUserListAPI", rlst);
+    setUserList(rlst);
+  };
+
+  const deleteUserOne = async () => {
+    await CommonService.instance.deleteUserItem("");
   };
 
   const handleDelete = async (e: any, userid: string) => {
@@ -88,6 +114,10 @@ export default function Page01({ props }) {
 
   useEffect(() => {
     getUserListAPI();
+
+    return () => {
+      getUserListAPI();
+    };
   }, []);
 
   return (
@@ -102,7 +132,7 @@ export default function Page01({ props }) {
         <h2 className="text-center mt-5 ">ADD DATA</h2>
         <div className="d-flex">
           <div className="d-flex justify-content-center mt-3">
-            <Form style={{ width: "420px" }} onSubmit={addData}>
+            <Form style={{ width: "420px" }} onSubmit={addUserOneAPI}>
               <Form.Group controlId="name">
                 <Form.Label>name</Form.Label>
                 <Form.Control
@@ -176,8 +206,33 @@ export default function Page01({ props }) {
               />
             </Form>
           </div>
-          <div style={{ marginLeft: "30px" }}>
-            <ul></ul>
+          <div style={{ marginLeft: "50px" }} className="w-100 mt-5">
+            <h4>User List</h4>
+            <table className="w-100 mt-4">
+              <colgroup>
+                <col width="30%" />
+                <col width="30%" />
+                <col width="40%" />
+              </colgroup>
+              <thead>
+                <tr className="text-capitalize">
+                  <th>name</th>
+                  <th>role</th>
+                  <th>active</th>
+                </tr>
+              </thead>
+              <tbody>
+                {userList.map((item) => {
+                  return (
+                    <tr>
+                      <td>{item.name}</td>
+                      <td>{item.role}</td>
+                      <td>{item.active ? "active" : "inactive"}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

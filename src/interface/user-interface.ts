@@ -9,6 +9,7 @@ export interface IUserProfile {
 
 export interface IUserCollect {
   userInfo: any;
+  userArray?: any;
   reviews?: string[];
   bootcamps?: string[];
 }

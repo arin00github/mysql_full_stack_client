@@ -1,5 +1,5 @@
 export interface Response<T> {
-  count: number;
+  //count: number;
   results?: T;
 }
 

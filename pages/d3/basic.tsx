@@ -82,6 +82,7 @@ export default function BasicD3() {
         let county = infoArray.dataArray2.find((item) => {
           return item["fips"] == fips;
         });
+        console.log(county);
 
         setCountyUnit({
           ...countyUnit,

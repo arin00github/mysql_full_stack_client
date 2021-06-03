@@ -7,16 +7,24 @@ import { Button, Form, FormCheck } from "react-bootstrap";
 import { wrapper } from "../../redux/store";
 
 import { useSelector } from "react-redux";
+import { CommonService } from "../api/services/common-service";
+import { IAuthInfo } from "../../src/interface/auth-interface";
+import { IBootcampProfile } from "../../src/interface/camp-interface";
 
 export default function AddBootCamp({ props }) {
   //const getUser = useSelector(selectUser);
   //console.log("getUser", getUser.userArray);
   const resetValue = {
     title: "",
+    personCount: 0,
+    price: 0,
   };
+  const bringToken = useSelector((state: { auth: IAuthInfo }) => state.auth);
 
   const router = useRouter();
   const [form, setForm] = useState(resetValue);
+
+  const [campList, setCampList] = useState<IBootcampProfile[]>([]);
 
   const handleChange = (e) => {
     setForm({
@@ -25,33 +33,20 @@ export default function AddBootCamp({ props }) {
     });
   };
 
-  const addData = async (e) => {
-    e.preventDefault();
-    const { title } = form;
+  const getCampListAPI = async () => {
+    const result = await CommonService.instance.getBootcampList(
+      bringToken.token
+    );
 
-    const result = await Axios(`http://localhost:4200/api/camp/add`, {
-      //axios는 무조건 풀로 주소를 넣어야 한다.
-      method: "POST",
-      data: {
-        title: title,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        console.log(res.headers);
-      })
-      .catch((err) => {
-        console.log(err);
-        router.push({ pathname: "/404", query: { message: err } });
-      });
-    setForm(resetValue);
+    setCampList(result);
   };
 
-  // useEffect(() => {
-  //   readData();
-  // }, []);
+  useEffect(() => {
+    getCampListAPI();
+    return () => {
+      getCampListAPI();
+    };
+  }, []);
 
   return (
     <div>
@@ -61,20 +56,70 @@ export default function AddBootCamp({ props }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="container" id="add-data">
-        <h2 className="text-center mt-5 ">ADD BOOTCAMP</h2>
-        <div className="d-flex justify-content-center mt-3">
-          <Form style={{ width: "420px" }} onSubmit={addData}>
-            <Form.Group controlId="title">
-              <Form.Label>title</Form.Label>
-              <Form.Control
-                name="name"
-                value={form.title}
-                onChange={handleChange}
+      <div className="container " id="add-bootcamp">
+        <h2 className="text-center mt-5 ">BOOTCAMP</h2>
+        <div className="d-flex">
+          <div className="d-flex justify-content-center mt-3">
+            <Form style={{ width: "420px" }}>
+              <Form.Group controlId="title">
+                <Form.Label>title</Form.Label>
+                <Form.Control
+                  name="title"
+                  value={form.title}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="personCount">
+                <Form.Label>personCount</Form.Label>
+                <Form.Control
+                  name="personCount"
+                  value={form.personCount}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="price">
+                <Form.Label>price</Form.Label>
+                <Form.Control
+                  name="personCount"
+                  value={form.price}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <input
+                type="submit"
+                value="register"
+                className="btn btn-primary mt-4"
               />
-            </Form.Group>
-            <input type="submit" value="register" className="btn btn-primary" />
-          </Form>
+            </Form>
+          </div>
+          <div style={{ marginLeft: "50px" }} className="w-100 mt-5">
+            <h4>Bootcamp List</h4>
+            <table className="w-100 mt-4">
+              <colgroup>
+                <col width="45%" />
+                <col width="25%" />
+                <col width="30%" />
+              </colgroup>
+              <thead>
+                <tr className="text-capitalize">
+                  <th>title</th>
+                  <th>personCount</th>
+                  <th>price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {campList.map((item) => {
+                  return (
+                    <tr>
+                      <td>{item.title}</td>
+                      <td>{item.personCount}</td>
+                      <td>{item.price}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

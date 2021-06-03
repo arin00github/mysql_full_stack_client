@@ -12,6 +12,7 @@ const initialState: IUserCollect = {
     createdAt: null,
     updateAt: null,
   },
+  userArray: [],
 };
 
 export const users = createSlice({
