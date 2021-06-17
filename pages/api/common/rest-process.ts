@@ -17,7 +17,7 @@ export class RestProcess {
   public static async excuteJson<T>(
     path: string,
     method: ENABLE_METHOD,
-    body?: BodyInit | undefined,
+    body?: BodyInit | object | undefined,
     headers?: { [id: string]: string } | undefined
   ): Promise<T> {
     const resp = await RestProcess.doFetch(path, method, body, headers);

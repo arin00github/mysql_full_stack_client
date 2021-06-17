@@ -17,7 +17,15 @@ export interface ICommonCommand {
   getReviewList(token?: string): Promise<any>;
 
   //새 유저 추기
-  addUserList(item?: any, token?: string): Promise<any>;
+  addUserList(
+    user: {
+      name: string;
+      email: string;
+      role: string;
+      active: boolean;
+    },
+    token?: string
+  ): Promise<any>;
 
   //새 부트캠프 추가
   addBootCampList(item?: any, token?: string): Promise<any>;
@@ -26,7 +34,7 @@ export interface ICommonCommand {
   addReviewList(item?: any, token?: string): Promise<any>;
 
   //유저 삭제
-  deleteUserItem(token?: string): Promise<any>;
+  deleteUserItem(name: string, token?: string): Promise<any>;
 
   //부트캠프 삭제
   deleteCampItem(token?: string): Promise<any>;

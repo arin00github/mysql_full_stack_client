@@ -139,3 +139,22 @@ text-decoration: none;
 #canvas #tooltip{
   position: absolute;
 }
+
+
+#korea_map .province:hover {
+  fill: blue;
+}
+
+#korea_map svg .background {
+  fill: transparent;
+}
+
+#korea_map .reg_name {
+  fill: white;
+  font-size: 10px;
+}
+
+#korea_map .region {
+  fill: white;
+  font-size: 10px;
+}

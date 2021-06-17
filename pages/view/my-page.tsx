@@ -17,6 +17,8 @@ export default function AddBootCamp({ props }) {
 
   const router = useRouter();
   const [form, setForm] = useState(resetValue);
+  const [campList, setCampList] = useState();
+  const [reviews, setViews] = useState();
 
   const handleChange = (e) => {
     setForm({
@@ -62,19 +64,16 @@ export default function AddBootCamp({ props }) {
       </Head>
 
       <div className="container" id="add-data">
-        <h2 className="text-center mt-5 ">ADD REVIEW</h2>
-        <div className="d-flex justify-content-center mt-3">
-          <Form style={{ width: "420px" }} onSubmit={addData}>
-            <Form.Group controlId="content">
-              <Form.Label>ADD REVIEW</Form.Label>
-              <Form.Control
-                name="content"
-                value={form.content}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <input type="submit" value="register" className="btn btn-primary" />
-          </Form>
+        <h2 className="text-center mt-5 ">My-Page</h2>
+        <div className="d-flex">
+          <div className="d-flex justify-content-center mt-3">
+            <h4>My BootCamp Study</h4>
+            <ul></ul>
+          </div>
+          <div className="d-flex justify-content-center mt-3">
+            <h4>My Reviews</h4>
+            <ul></ul>
+          </div>
         </div>
       </div>
     </div>

@@ -240,7 +240,7 @@ export default class Utils {
       "x-auth-token": xAuthToken,
       "x-date": reqDate,
       "x-api-version": reqVersion,
-      "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+      "Content-Type": "application/json; charset=utf-8",
     };
     return headers;
   }

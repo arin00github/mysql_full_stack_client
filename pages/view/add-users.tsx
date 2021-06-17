@@ -74,18 +74,18 @@ export default function Page01({ props }) {
   //   setForm(resetValue);
   // };
 
-  const addUserOneAPI = async () => {
+  const addUserOneAPI = async (e) => {
+    e.preventDefault();
     const { name, email, role, active } = form;
 
-    await CommonService.instance.addUserList(
-      {
-        name: name,
-        email: email,
-        role: role,
-        active: getActiveBoolean(active),
-      },
-      bringToken.token
-    );
+    const item = {
+      name: name,
+      email: email,
+      role: role,
+      active: getActiveBoolean(active),
+    };
+
+    await CommonService.instance.addUserList(item, bringToken.token);
   };
 
   const getUserListAPI = async () => {
@@ -94,29 +94,17 @@ export default function Page01({ props }) {
     setUserList(rlst);
   };
 
-  const deleteUserOne = async () => {
-    await CommonService.instance.deleteUserItem("");
+  const deleteUserOne = async (name: string) => {
+    await CommonService.instance.deleteUserItem(name, bringToken.token);
   };
 
-  const handleDelete = async (e: any, userid: string) => {
-    e.preventDefault();
-    await Axios(`http://localhost:4200/api/users/delete`, {
-      //axios는 무조건 풀로 주소를 넣어야 한다.
-      method: "DELETE",
-      data: {
-        user_id: userid,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  };
+  useEffect(() => {}, []);
 
   useEffect(() => {
-    getUserListAPI();
+    getUserListAPI().then();
 
     return () => {
-      getUserListAPI();
+      getUserListAPI().then();
     };
   }, []);
 
@@ -212,7 +200,8 @@ export default function Page01({ props }) {
               <colgroup>
                 <col width="30%" />
                 <col width="30%" />
-                <col width="40%" />
+                <col width="30%" />
+                <col width="10%" />
               </colgroup>
               <thead>
                 <tr className="text-capitalize">
@@ -222,15 +211,26 @@ export default function Page01({ props }) {
                 </tr>
               </thead>
               <tbody>
-                {userList.map((item) => {
-                  return (
-                    <tr>
-                      <td>{item.name}</td>
-                      <td>{item.role}</td>
-                      <td>{item.active ? "active" : "inactive"}</td>
-                    </tr>
-                  );
-                })}
+                {userList &&
+                  userList.map((item) => {
+                    return (
+                      <tr>
+                        <td>{item.name}</td>
+                        <td>{item.role}</td>
+                        <td>{item.active ? "active" : "inactive"}</td>
+                        <td>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => {
+                              deleteUserOne(item.name);
+                            }}
+                          >
+                            X
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

@@ -91,24 +91,32 @@ export class CommonCommand implements ICommonCommand {
   }
 
   async addUserList(
-    item: any,
+    user: {
+      name: string;
+      email: string;
+      role: string;
+      active: boolean;
+    },
     token: string
-  ): Promise<Response<any> | undefined> {
+  ): Promise<boolean> {
     try {
+      console.log("user", user);
       const urlPath = `${this.addUserPath}`;
       const method = "POST";
-      const body = JSON.stringify(item);
+      const body = JSON.stringify(user);
       const headers = Utils.nonAuthMakeHeaders(method, urlPath, body, token);
-      const rlst = await RestProcess.excuteJson<ResultMessage<any>>(
+      const rlst = await RestProcess.excuteJson<ResultMessage<{}>>(
         urlPath,
         method,
         body,
         headers
       );
-      if (rlst) return rlst.response;
+      console.log("body", body, typeof body);
+      if (rlst && rlst.code === 200) return rlst.code === 200;
     } catch (err) {
       console.log("api error", err);
     }
+    return false;
   }
 
   async addBootCampList(

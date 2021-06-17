@@ -1,0 +1,23 @@
+{
+    "data": [{"reg_name": "Gangwon-do","populcation": 1279},
+        {"reg_name":"Gyeonggi-do", "populcation":152}, 
+        {"reg_name":"Seoul", "populcation":977}, 
+        {"reg_name":"Busan", "populcation":342},
+        {"reg_name":"Incheon", "populcation":292},
+        {"reg_name":"Jeju-do", "populcation":63},
+        {"reg_name":"Ulsan", "populcation":115},
+        {"reg_name":"Gwangju", "populcation":149},
+        {"reg_name":"Daegu", "populcation":245},
+        {"reg_name":"Sejong-si", "populcation":26},
+        {"reg_name":"Gyeongsangnam-do", "populcation":334},
+        {"reg_name":"Gyeongsangbuk-do", "populcation":268},
+        {"reg_name":"Chungcheongnam-do", "populcation":215},
+        {"reg_name":"Chungcheongbuk-do", "populcation":160},
+        {"reg_name":"Daejeon", "populcation":215}
+
+    ]
+    
+
+}
+
+
