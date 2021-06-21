@@ -10,6 +10,9 @@ export interface ICommonCommand {
   //유저 리스트 불러오기
   getUserList(token?: string): Promise<any>;
 
+  //로그인 아이디의 부트캠프 리스트 찾기
+  findCampList(send: { userId: number }, token?: string): Promise<any>;
+
   //부트캠프 리스트 불러오기
   getBootcampList(token?: string): Promise<any>;
 
@@ -41,4 +44,7 @@ export interface ICommonCommand {
 
   //리뷰 삭제
   deleteReviewItem(token?: string): Promise<any>;
+
+  //json파일 저장
+  downloadGeojsonFile(token?: string): Promise<any>;
 }

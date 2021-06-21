@@ -58,6 +58,9 @@ export default function AddBootCamp({ props }) {
 
       <div className="container " id="add-bootcamp">
         <h2 className="text-center mt-5 ">BOOTCAMP</h2>
+        <div>
+          <Button>add bootcamp</Button>
+        </div>
         <div className="d-flex">
           <div className="d-flex justify-content-center mt-3">
             <Form style={{ width: "420px" }}>
@@ -108,15 +111,16 @@ export default function AddBootCamp({ props }) {
                 </tr>
               </thead>
               <tbody>
-                {campList.map((item) => {
-                  return (
-                    <tr>
-                      <td>{item.title}</td>
-                      <td>{item.personCount}</td>
-                      <td>{item.price}</td>
-                    </tr>
-                  );
-                })}
+                {campList &&
+                  campList.map((item) => {
+                    return (
+                      <tr>
+                        <td>{item.title}</td>
+                        <td>{item.personCount}</td>
+                        <td>{item.price}</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

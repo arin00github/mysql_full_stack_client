@@ -2,6 +2,7 @@ import Utils from "../common/utils";
 import { ICommonCommand } from "../../../src/interface/common-interface";
 import { Response, ResultMessage } from "../common/result-process";
 import { RestProcess } from "../common/rest-process";
+import { Json } from "sequelize/types/lib/utils";
 
 export class CommonCommand implements ICommonCommand {
   private server_url = "http://localhost:4200";
@@ -9,6 +10,8 @@ export class CommonCommand implements ICommonCommand {
   private getCampListPath = `${this.server_url}/api/camp/read`;
   private getReviewListPath = `${this.server_url}/api/review/read`;
 
+  private findCampPath = `${this.server_url}/api/camp/findcamp`;
+  private downloadMapPath = `${this.server_url}/api/map/download`;
   private addUserPath = `${this.server_url}/api/users/add`;
   private addCampPath = `${this.server_url}/api/camp/add`;
   private addReviewPath = `${this.server_url}/api/review/add`;
@@ -43,6 +46,29 @@ export class CommonCommand implements ICommonCommand {
 
     return undefined;
   }
+  async findCampList(
+    send: { userId: number },
+    token: string
+  ): Promise<ResultMessage<any> | undefined> {
+    try {
+      const urlPath = `${this.findCampPath}`;
+      const method = "POST";
+      const body = JSON.stringify(send);
+      const headers = Utils.nonAuthMakeHeaders(method, urlPath, body, token);
+      const rlst = await RestProcess.excuteJson<ResultMessage<any>>(
+        urlPath,
+        method,
+        body,
+        headers
+      );
+      console.log("body", body);
+
+      if (rlst) return rlst;
+    } catch (err) {
+      console.log("api error", err);
+    }
+  }
+
   async getBootcampList(
     token: string
   ): Promise<ResultMessage<any> | undefined> {
@@ -64,7 +90,7 @@ export class CommonCommand implements ICommonCommand {
 
       if (rlst) return rlst;
     } catch (err) {
-      console.log("api error", err);
+      console.log("err:", err);
     }
   }
 
@@ -226,6 +252,35 @@ export class CommonCommand implements ICommonCommand {
       if (rlst) return rlst.response;
     } catch (err) {
       console.log("api error", err);
+    }
+  }
+
+  async downloadGeojsonFile(token: string): Promise<any | undefined> {
+    try {
+      const urlPath = `${this.downloadMapPath}`;
+      const method = "GET";
+
+      const headers = Utils.nonAuthMakeHeaders(
+        method,
+        urlPath,
+        undefined,
+        token
+      );
+
+      const rlst = await RestProcess.excuteJson<any>(
+        urlPath,
+        method,
+        undefined,
+        headers
+      );
+
+      console.log("rlst", rlst);
+
+      if (rlst) {
+        return rlst;
+      }
+    } catch (err) {
+      console.log("api error:", err);
     }
   }
 }

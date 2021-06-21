@@ -2,8 +2,18 @@ import * as d3 from "d3";
 import { useEffect } from "react";
 import koreaMap from "../../src/data/korea_map.json";
 import koreainfo from "../../src/data/korea_info.json";
+import { CommonService } from "../api/services/common-service";
+import { useSelector } from "react-redux";
+import { IAuthInfo } from "../../src/interface/auth-interface";
+import { useState } from "react";
 
 export default function Map01() {
+  const bringToken = useSelector((state: { auth: IAuthInfo }) => state.auth);
+
+  const [geoData, setGeoData] = useState({
+    data: undefined,
+  });
+
   const width = 800;
   const height = 600;
 
@@ -23,10 +33,10 @@ export default function Map01() {
     .scale(initialScale)
     .translate([initialX, initialY]);
 
-  const drawMap = async () => {
+  const drawMap = () => {
     canvas
       .selectAll("path")
-      .data(koreaMap.features)
+      .data(geoData.data.features)
       .enter()
       .append("path")
       .attr("d", d3.geoPath().projection(projection))
@@ -34,7 +44,7 @@ export default function Map01() {
 
     canvas
       .selectAll("text")
-      .data(koreaMap.features)
+      .data(geoData.data.features)
       .enter()
       .append("text")
       .attr("transform", translateTolabel)
@@ -50,15 +60,34 @@ export default function Map01() {
     return "translate(" + arr + ")";
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      drawMap();
-    }, 2000);
+  const downloadSvg = async () => {
+    const rlst = await CommonService.instance.downloadGeojsonFile(
+      bringToken.token
+    );
 
-    // console.log(koreaMap.features);
-    // return () => {
-    //   clearTimeout(result);
-    // };
+    const convert = JSON.parse(rlst[0].geojson);
+    console.log("download", rlst[0]);
+    console.log("convert", convert);
+
+    setGeoData({
+      ...geoData,
+      data: convert,
+    });
+  };
+
+  useEffect(() => {
+    if (geoData.data !== undefined) {
+      console.log("check data");
+      drawMap();
+    }
+  }, [geoData.data]);
+
+  useEffect(() => {
+    downloadSvg();
+
+    return () => {
+      downloadSvg();
+    };
   }, []);
 
   return (

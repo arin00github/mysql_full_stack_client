@@ -7,6 +7,9 @@ import { Button, Form, FormCheck } from "react-bootstrap";
 import { wrapper } from "../../redux/store";
 
 import { useSelector } from "react-redux";
+import { CommonService } from "../api/services/common-service";
+import { State } from "../../redux/slices";
+import { IAuthInfo } from "../../src/interface/auth-interface";
 
 export default function AddBootCamp({ props }) {
   //const getUser = useSelector(selectUser);
@@ -20,6 +23,11 @@ export default function AddBootCamp({ props }) {
   const [campList, setCampList] = useState();
   const [reviews, setViews] = useState();
 
+  const user = useSelector((state: State) => state.users).userInfo;
+
+  const bringToken = useSelector((state: { auth: IAuthInfo }) => state.auth);
+  console.log("mypage user", user);
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -27,33 +35,19 @@ export default function AddBootCamp({ props }) {
     });
   };
 
-  const addData = async (e) => {
-    e.preventDefault();
-    const { content } = form;
-
-    const result = await Axios(`http://localhost:4200/api/review/add`, {
-      //axios는 무조건 풀로 주소를 넣어야 한다.
-      method: "POST",
-      data: {
-        content: content,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        console.log(res.headers);
-      })
-      .catch((err) => {
-        console.log(err);
-        router.push({ pathname: "/404", query: { message: err } });
-      });
-    setForm(resetValue);
+  const findMyCampAPI = async () => {
+    const send = {
+      userId: user.id,
+    };
+    const rlst = await CommonService.instance.findCampList(
+      send,
+      bringToken.token
+    );
+    console.log("rlst", rlst);
   };
-
-  // useEffect(() => {
-  //   readData();
-  // }, []);
+  useEffect(() => {
+    findMyCampAPI();
+  }, []);
 
   return (
     <div>

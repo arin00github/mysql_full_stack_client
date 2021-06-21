@@ -16,10 +16,10 @@ export default function Aside({ handleLogout }: IAsideProps) {
     { url: "/view/my-page", title: "My-Page", id: "menu0004" },
   ];
 
-  const React_Simple_Map = [
-    { url: "/map/section01", title: "section01", id: "menu0005" },
-    { url: "/map/section02", title: "section02", id: "menu0006" },
-    { url: "/map/section03", title: "section03", id: "menu0007" },
+  const database = [
+    { url: "/database/study01", title: "study01", id: "menu0005" },
+    { url: "/database/study02", title: "study02", id: "menu0006" },
+    { url: "/database/study03", title: "study03", id: "menu0007" },
   ];
 
   const D3_Sample = [
@@ -51,8 +51,8 @@ export default function Aside({ handleLogout }: IAsideProps) {
             </li>
           );
         })}
-        <li className="subject">REACT SIMPLE MAP</li>
-        {React_Simple_Map.map((menu) => {
+        <li className="subject">DATABASE</li>
+        {database.map((menu) => {
           return (
             <li key={menu.id}>
               <Link href={menu.url}>
