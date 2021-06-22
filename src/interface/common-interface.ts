@@ -47,4 +47,6 @@ export interface ICommonCommand {
 
   //json파일 저장
   downloadGeojsonFile(token?: string): Promise<any>;
-}
+
+  downloadSmGeojson(sending:{name?: string}, token?:string) : Promise<any>  
+} 
