@@ -54,6 +54,10 @@ a{
   width: 100%;
 }
 
+.box-line{
+  border: 1px solid #888;
+}
+
 
 #wrap {
   width: 100%;
@@ -62,7 +66,7 @@ a{
 }
 
 #aside {
-  width: 300px;
+  width: 240px;
   flex: none;
   height: 100vh;
   background-color: rgb(58, 58, 155);
@@ -70,8 +74,8 @@ a{
 }
 
 #wrap #main {
-  width: calc(100% - 300px);
-  flex-basis: calc(100% - 300px);
+  width: calc(100% - 240px);
+  flex-basis: calc(100% - 240px);
   height: 100vh;
   min-height: 100vh;
   overflow-y: scroll;
@@ -142,14 +146,14 @@ text-decoration: none;
 
 
 #korea_map .province:hover {
-  fill: blue;
+  fill: rgb(58, 58, 155);
 }
 
 #korea_map svg .background {
   fill: transparent;
 }
 
-#korea_map .reg_name {
+.reg_name {
   fill: white;
   font-size: 10px;
 }

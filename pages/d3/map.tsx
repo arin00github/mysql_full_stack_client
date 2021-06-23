@@ -17,15 +17,13 @@ export default function Map01() {
     data: undefined,
   });
 
-  const width = 800;
+  const width = 600;
   const height = 600;
 
   const canvas = d3
     .select("#canvas")
     .attr("width", width)
     .attr("height", height);
-
-  //console.log("canvas", canvas);
 
   const initialScale = 5500;
   const initialX = -11900;
@@ -37,7 +35,7 @@ export default function Map01() {
     .translate([initialX, initialY]);
 
   const mapBox = document.getElementById("mapBox");
-  const chart = document.getElementById("chart");
+
   //전국지도 데이터 지도 드로잉
   const drawMap = () => {
     const map = canvas
@@ -72,12 +70,17 @@ export default function Map01() {
       .enter()
       .append("text")
       .attr("transform", translateTolabel)
-      .attr("class", "reg_name")
       .attr("text-anchor", "middle")
+      .attr("class", "reg_name")
       .text((d) => {
-        return d.properties.CTP_ENG_NM;
+        return d.properties.CTP_KOR_NM;
       });
   };
+
+  function translateTolabel(d) {
+    var arr = d3.geoPath().projection(projection).centroid(d);
+    return "translate(" + arr + ")";
+  }
 
   //새로운 데이터 들어올때마다 맵생성, 만약 기존에 맵이 있으면 삭제
   const drawSmMap = () => {
@@ -89,28 +92,86 @@ export default function Map01() {
       .scale(smGeoData.data.geoinfo.scale)
       .translate([width2 / 2, height2 / 2]);
 
+    // zoom 기능 설정
+    const zoom = d3.zoom().on("zoom", zoomed);
+
     const box = d3.select("#mapBox");
-    console.log("create map!");
-    //const element = d3.create('svg').attr('id','chart').attr("width", width).attr("height", height)
-    const map = box
+    // svg 형성하기
+    const svg = box
       .append("svg")
       .attr("id", "chart")
       .attr("width", width2)
-      .attr("height", height2);
-    map
-      .selectAll("path")
+      .attr("height", height2)
+      .call(
+        //mouse roller control
+        zoom
+      );
+
+    const g = svg.append("g");
+
+    let boundaryWidth = +box.attr("width"),
+      boundaryHeight = +box.attr("height"),
+      x0 = +g.attr("x"),
+      y0 = +g.attr("y"),
+      x1 = +g.attr("width") + x0,
+      y1 = +g.attr("height") + y0;
+
+    console.log("g", g);
+    console.log("x0", x0);
+    console.log("x1", x1);
+
+    zoom.scaleExtent([
+      1,
+      Math.min(boundaryWidth / (x1 - x0), boundaryHeight / (y1 - y0)),
+    ]);
+
+    function zoomed(event) {
+      const evt = event.transform;
+      if (evt.invertX(0) > x0) evt.x = -x0 * evt.k;
+      else if (evt.invertX(boundaryWidth) < x1)
+        evt.x = boundaryWidth - x1 * evt.k;
+      if (evt.invertY(0) > y0) evt.y = -y0 * evt.k;
+      else if (evt.invertY(boundaryHeight) < y1)
+        evt.y = boundaryHeight - y1 * evt.k;
+      svg.attr("transform", evt);
+    }
+
+    // svg path 형성하기
+    g.selectAll("path")
       .data(smGeoData.data.features)
       .enter()
       .append("path")
       .attr("d", d3.geoPath().projection(projection2));
 
-    //newDrawSmMap(smGeoData.data.features)
-  };
+    // text로 지역이름 붙여놓기
+    g.selectAll("text")
+      .data(smGeoData.data.features)
+      .enter()
+      .append("text")
+      .attr("transform", translateTolabel2)
+      .attr("class", "reg_name")
+      .attr("text-anchor", "middle")
+      .text((d) => {
+        return d.properties.SIG_KOR_NM;
+      });
+    //센터 좌표값이 나옴.
+    function translateTolabel2(d) {
+      var arr = d3.geoPath().projection(projection2).centroid(d);
+      return "translate(" + arr + ")";
+    }
 
-  function translateTolabel(d) {
-    var arr = d3.geoPath().projection(projection).centroid(d);
-    return "translate(" + arr + ")";
-  }
+    d3.select("#zoom-center").on("click", function () {
+      zoom.translateTo(svg, 0, 0);
+    });
+
+    d3.select("#zoom-out").on("click", function () {
+      zoom.scaleBy(svg, 1 / 1.3);
+    });
+
+    d3.select("#zoom-in").on("click", function () {
+      zoom.scaleBy(svg.transition().duration(750), 1.3);
+    });
+  };
 
   //전국지도 데이터 다운로드
   const downloadSvg = async () => {
@@ -120,7 +181,7 @@ export default function Map01() {
 
     const convert = JSON.parse(rlst[0].geojson);
     //console.log("download", rlst[0]);
-    console.log("convert", convert);
+    //console.log("convert", convert);
 
     setGeoData({
       ...geoData,
@@ -134,18 +195,15 @@ export default function Map01() {
       item,
       bringToken.token
     );
-    console.log("rlst_download", rlst);
-
     const convert = JSON.parse(rlst[0].geojson);
-    console.log("download", rlst[0]);
-    console.log("convert", convert);
+    //console.log("download", rlst[0]);
+    //console.log("convert", convert);
 
     setSmGeoData({
       ...smGeoData,
       data: convert,
     });
   };
-  console.log("smGeoData", smGeoData);
 
   useEffect(() => {
     if (smGeoData.data !== undefined) {
@@ -175,11 +233,28 @@ export default function Map01() {
   }, []);
 
   return (
-    <div>
-      <div id="korea_map">
-        <svg id="canvas"></svg>
+    <div className="d-flex flex-column">
+      <div>
+        <h3>전국지도</h3>
+        <div id="korea_map">
+          <svg id="canvas"></svg>
+        </div>
       </div>
-      <div id="mapBox"></div>
+      <div>
+        <div>도시이름</div>
+        <div className="box-line overflow-hidden" id="mapBox"></div>
+        <div>
+          <button className="btn btn-primary" id="zoom-center">
+            center
+          </button>
+          <button className="btn btn-primary" id="zoom-out">
+            zoom-out
+          </button>
+          <button className="btn btn-primary" id="zoom-in">
+            zoom-in
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

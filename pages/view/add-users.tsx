@@ -47,33 +47,6 @@ export default function Page01({ props }) {
     return value === "active" ? true : false;
   };
 
-  // const addData = async (e) => {
-  //   e.preventDefault();
-  //   const { name, email, role, active } = form;
-
-  //   const result = await Axios(`http://localhost:4200/api/users/add`, {
-  //     //axios는 무조건 풀로 주소를 넣어야 한다.
-  //     method: "POST",
-  //     data: {
-  //       name: name,
-  //       email: email,
-  //       role: role,
-  //       active: getActiveBoolean(active),
-  //     },
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => {
-  //       console.log(res.headers);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       router.push({ pathname: "/404", query: { message: err } });
-  //     });
-  //   setForm(resetValue);
-  // };
-
   const addUserOneAPI = async (e) => {
     e.preventDefault();
     const { name, email, role, active } = form;

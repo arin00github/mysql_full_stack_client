@@ -15,13 +15,6 @@ export default function Aside({ handleLogout }: IAsideProps) {
     { url: "/view/add-bootcamp", title: "Add-bootcamp", id: "menu0003" },
     { url: "/view/my-page", title: "My-Page", id: "menu0004" },
   ];
-
-  const database = [
-    { url: "/database/study01", title: "study01", id: "menu0005" },
-    { url: "/database/study02", title: "study02", id: "menu0006" },
-    { url: "/database/study03", title: "study03", id: "menu0007" },
-  ];
-
   const D3_Sample = [
     { url: "/d3/basic", title: "basic", id: "menu0008" },
     { url: "/d3/map", title: "map", id: "menu0009" },
@@ -43,16 +36,6 @@ export default function Aside({ handleLogout }: IAsideProps) {
         </li>
         <li className="subject">MYSQL DATABASE</li>
         {Mysql.map((menu) => {
-          return (
-            <li key={menu.id}>
-              <Link href={menu.url}>
-                <a href={menu.url}>{menu.title}</a>
-              </Link>
-            </li>
-          );
-        })}
-        <li className="subject">DATABASE</li>
-        {database.map((menu) => {
           return (
             <li key={menu.id}>
               <Link href={menu.url}>
