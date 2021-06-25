@@ -1,6 +1,6 @@
-import Utils from '../common/utils';
+import Utils from "../common/utils";
 import { ICommonCommand } from "../../../src/interface/common-interface";
-import { Response, ResultMessage } from '../common/result-process';
+import { Response, ResultMessage } from "../common/result-process";
 import { RestProcess } from "../common/rest-process";
 import { Json } from "sequelize/types/lib/utils";
 
@@ -13,7 +13,7 @@ export class CommonCommand implements ICommonCommand {
   private findCampPath = `${this.server_url}/api/camp/findcamp`;
   private downloadMapPath = `${this.server_url}/api/map/download`;
   private downloadMapPath2 = `${this.server_url}/api/map/download-sm`;
-  
+
   private addUserPath = `${this.server_url}/api/users/add`;
   private addCampPath = `${this.server_url}/api/camp/add`;
   private addReviewPath = `${this.server_url}/api/review/add`;
@@ -276,7 +276,7 @@ export class CommonCommand implements ICommonCommand {
         headers
       );
 
-      console.log("rlst", rlst);
+      //console.log("rlst", rlst);
 
       if (rlst) {
         return rlst;
@@ -286,21 +286,29 @@ export class CommonCommand implements ICommonCommand {
     }
   }
 
-  async downloadSmGeojson(sending:{name?: string}, token: string): Promise<any | undefined> {
-    try{
+  async downloadSmGeojson(
+    sending: { name?: string },
+    token: string
+  ): Promise<any | undefined> {
+    try {
       const urlPath = `${this.downloadMapPath2}`;
-      const method = 'POST';
-      const body = JSON.stringify(sending)
+      const method = "POST";
+      const body = JSON.stringify(sending);
       const headers = Utils.nonAuthMakeHeaders(method, urlPath, body, token);
 
-      const rlst = await RestProcess.excuteJson<any>(urlPath, method, body, headers);
-      console.log(rlst);
+      const rlst = await RestProcess.excuteJson<any>(
+        urlPath,
+        method,
+        body,
+        headers
+      );
+      //console.log(rlst);
 
-      if(rlst) {
-        return rlst
+      if (rlst) {
+        return rlst;
       }
     } catch (err) {
-      console.log("api error:", err)
+      console.log("api error:", err);
     }
   }
 }

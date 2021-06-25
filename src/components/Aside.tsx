@@ -18,6 +18,7 @@ export default function Aside({ handleLogout }: IAsideProps) {
   const D3_Sample = [
     { url: "/d3/basic", title: "basic", id: "menu0008" },
     { url: "/d3/map", title: "map", id: "menu0009" },
+    { url: "/d3/zoom", title: "zoom", id: "menu0010" },
   ];
 
   const user = useSelector((state: State) => state.users);

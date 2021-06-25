@@ -26,24 +26,40 @@ export default function Map01() {
     .attr("height", height);
 
   const initialScale = 5500;
-  const initialX = -11900;
-  const initialY = 4050;
+  const initialX = 200;
+  const initialY = 400;
 
-  const projection = d3
-    .geoMercator()
-    .scale(initialScale)
-    .translate([initialX, initialY]);
+  // const projection = d3
+  //   .geoMercator()
+  //   .center([126, 35.5])
+  //   .scale(initialScale)
+  //   .translate([initialX, initialY]);
+
+  const projection = d3.geoMercator().scale(1).translate([0, 0]);
+  const path = d3.geoPath().projection(projection);
+  const bounds = path.bounds(geoData.data);
+  console.log("bounds", bounds);
+  const widthScale = (bounds[1][0] - bounds[0][0]) / width;
+  const heightScale = (bounds[1][1] - bounds[0][1]) / height;
+  const scale = 1 / Math.max(widthScale, heightScale);
+  const xoffset = width / 2 - (scale * (bounds[1][0] + bounds[0][0])) / 2 + 10;
+  const yoffset = height / 2 - (scale * (bounds[1][1] + bounds[0][1])) / 2 + 80;
+  projection.scale(scale).translate([xoffset, yoffset]);
+  console.log("scale", scale);
+  console.log("xoffset", xoffset);
+  console.log("yoffset", yoffset);
 
   const mapBox = document.getElementById("mapBox");
 
   //전국지도 데이터 지도 드로잉
   const drawMap = () => {
-    const map = canvas
+    const g = canvas.append("g");
+    const map = g
       .selectAll("path")
       .data(geoData.data.features)
       .enter()
       .append("path")
-      .attr("d", d3.geoPath().projection(projection))
+      .attr("d", path)
       .attr("class", "province");
 
     map
@@ -64,8 +80,7 @@ export default function Map01() {
         downloadSvgSm(sending).then();
       });
 
-    canvas
-      .selectAll("text")
+    g.selectAll("text")
       .data(geoData.data.features)
       .enter()
       .append("text")
@@ -86,62 +101,47 @@ export default function Map01() {
   const drawSmMap = () => {
     const width2 = 800;
     const height2 = 600;
-    const projection2 = d3
-      .geoMercator()
-      .center(smGeoData.data.geoinfo.center)
-      .scale(smGeoData.data.geoinfo.scale)
-      .translate([width2 / 2, height2 / 2]);
+    const projection2 = d3.geoMercator().scale(1).translate([0, 0]);
+    const path = d3.geoPath().projection(projection2);
+
+    const bounds = path.bounds(smGeoData.data);
+    const widthScale = (bounds[1][0] - bounds[0][0]) / width2;
+    const heightScale = (bounds[1][1] - bounds[0][1]) / height2;
+    const scale = 1 / Math.max(widthScale, heightScale);
+    const xoffset =
+      width / 2 - (scale * (bounds[1][0] + bounds[0][0])) / 2 + 10;
+    const yoffset =
+      height / 2 - (scale * (bounds[1][1] + bounds[0][1])) / 2 + 80;
+
+    projection2.scale(scale).translate([xoffset, yoffset]);
+
+    console.log("xoffset_inmap", xoffset);
+    console.log("yoffset_inmap", yoffset);
 
     // zoom 기능 설정
-    const zoom = d3.zoom().on("zoom", zoomed);
-
+    const zoom = d3
+      .zoom()
+      .scaleExtent([0.5, 4])
+      .on("zoom", function (event) {
+        console.log("zoom event", event);
+        svg.attr("transform", event.transform);
+      });
     const box = d3.select("#mapBox");
     // svg 형성하기
     const svg = box
       .append("svg")
       .attr("id", "chart")
       .attr("width", width2)
-      .attr("height", height2)
-      .call(
-        //mouse roller control
-        zoom
-      );
+      .attr("height", height2);
 
-    const g = svg.append("g");
-
-    let boundaryWidth = +box.attr("width"),
-      boundaryHeight = +box.attr("height"),
-      x0 = +g.attr("x"),
-      y0 = +g.attr("y"),
-      x1 = +g.attr("width") + x0,
-      y1 = +g.attr("height") + y0;
-
-    console.log("g", g);
-    console.log("x0", x0);
-    console.log("x1", x1);
-
-    zoom.scaleExtent([
-      1,
-      Math.min(boundaryWidth / (x1 - x0), boundaryHeight / (y1 - y0)),
-    ]);
-
-    function zoomed(event) {
-      const evt = event.transform;
-      if (evt.invertX(0) > x0) evt.x = -x0 * evt.k;
-      else if (evt.invertX(boundaryWidth) < x1)
-        evt.x = boundaryWidth - x1 * evt.k;
-      if (evt.invertY(0) > y0) evt.y = -y0 * evt.k;
-      else if (evt.invertY(boundaryHeight) < y1)
-        evt.y = boundaryHeight - y1 * evt.k;
-      svg.attr("transform", evt);
-    }
+    const g = svg.append("g").call(zoom);
 
     // svg path 형성하기
     g.selectAll("path")
       .data(smGeoData.data.features)
       .enter()
       .append("path")
-      .attr("d", d3.geoPath().projection(projection2));
+      .attr("d", path);
 
     // text로 지역이름 붙여놓기
     g.selectAll("text")
@@ -154,6 +154,7 @@ export default function Map01() {
       .text((d) => {
         return d.properties.SIG_KOR_NM;
       });
+
     //센터 좌표값이 나옴.
     function translateTolabel2(d) {
       var arr = d3.geoPath().projection(projection2).centroid(d);
@@ -161,7 +162,7 @@ export default function Map01() {
     }
 
     d3.select("#zoom-center").on("click", function () {
-      zoom.translateTo(svg, 0, 0);
+      zoom.translateTo(svg, width2 / 2, height2 / 2);
     });
 
     d3.select("#zoom-out").on("click", function () {
@@ -169,7 +170,8 @@ export default function Map01() {
     });
 
     d3.select("#zoom-in").on("click", function () {
-      zoom.scaleBy(svg.transition().duration(750), 1.3);
+      //zoom.scaleBy(svg.transition().duration(750), 1.3);
+      zoom.scaleBy(svg, 1.3);
     });
   };
 
@@ -178,10 +180,7 @@ export default function Map01() {
     const rlst = await CommonService.instance.downloadGeojsonFile(
       bringToken.token
     );
-
     const convert = JSON.parse(rlst[0].geojson);
-    //console.log("download", rlst[0]);
-    //console.log("convert", convert);
 
     setGeoData({
       ...geoData,
