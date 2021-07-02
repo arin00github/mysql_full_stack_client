@@ -7,7 +7,7 @@ export interface IMainProps {
 export default function Main({ children }) {
   return (
     <div id="main">
-      <div className="container-fluid">{children}</div>
+      <div style={{ padding: "0 40px" }}>{children}</div>
     </div>
   );
 }

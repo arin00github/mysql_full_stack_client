@@ -11,10 +11,8 @@ export interface IAsideProps {
 
 export default function Aside({ handleLogout }: IAsideProps) {
   const Mysql = [
-    { url: "/view/add-users", title: "Add-Users", id: "menu0002" },
-    { url: "/view/add-bootcamp", title: "Add-bootcamp", id: "menu0003" },
-    { url: "/view/my-page", title: "My-Page", id: "menu0004" },
-    { url: "/database/example01", title: "mssql", id: "menu0015" },
+    { url: "/database/example01", title: "mssql", id: "menu001" },
+    { url: "/database/example02", title: "mssql2", id: "menu002" },
   ];
   const D3_Sample = [
     { url: "/d3/map", title: "map", id: "menu0009" },
@@ -42,7 +40,7 @@ export default function Aside({ handleLogout }: IAsideProps) {
             <a href="/">HOME</a>
           </Link>
         </li>
-        <li className="subject">MYSQL DATABASE</li>
+        <li className="subject">MSSQL DATABASE</li>
         {Mysql.map((menu) => {
           return (
             <li key={menu.id}>
