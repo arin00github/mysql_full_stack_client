@@ -90,11 +90,13 @@ a{
   border-top: 1px solid white;
 }
 #aside .nav li{
-  line-height: 2.7rem;
-  height: 2.7rem;
+  line-height: 2rem;
+  height: 2rem;
   padding-left: 30px;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
   font-size: 14px;
+}
+#aside .nav li:hover {
+  background-color: rgb(101, 101, 252);
 }
 
 #aside .nav li a{
@@ -161,4 +163,20 @@ text-decoration: none;
 #korea_map .region {
   fill: white;
   font-size: 10px;
+}
+
+
+#mssql-page .schema-box ul li {
+  cursor: pointer;
+  line-height: 1.5rem;
+  height: 1.5rem;
+}
+
+#mssql-page .schema-box ul li:hover {
+  background-color: rgb(201, 219, 247);
+}
+
+#mssql-page .schema-box, .table-box{
+  flex-basis: calc((100% - 30px)/2);
+  margin-right: 30px;
 }

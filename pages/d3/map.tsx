@@ -38,16 +38,16 @@ export default function Map01() {
   const projection = d3.geoMercator().scale(1).translate([0, 0]);
   const path = d3.geoPath().projection(projection);
   const bounds = path.bounds(geoData.data);
-  console.log("bounds", bounds);
+  // console.log("bounds", bounds);
   const widthScale = (bounds[1][0] - bounds[0][0]) / width;
   const heightScale = (bounds[1][1] - bounds[0][1]) / height;
   const scale = 1 / Math.max(widthScale, heightScale);
   const xoffset = width / 2 - (scale * (bounds[1][0] + bounds[0][0])) / 2 + 10;
   const yoffset = height / 2 - (scale * (bounds[1][1] + bounds[0][1])) / 2 + 80;
   projection.scale(scale).translate([xoffset, yoffset]);
-  console.log("scale", scale);
-  console.log("xoffset", xoffset);
-  console.log("yoffset", yoffset);
+  //console.log("scale", scale);
+  //console.log("xoffset", xoffset);
+  //console.log("yoffset", yoffset);
 
   const mapBox = document.getElementById("mapBox");
 
@@ -109,23 +109,23 @@ export default function Map01() {
     const heightScale = (bounds[1][1] - bounds[0][1]) / height2;
     const scale = 1 / Math.max(widthScale, heightScale);
     const xoffset =
-      width / 2 - (scale * (bounds[1][0] + bounds[0][0])) / 2 + 10;
-    const yoffset =
-      height / 2 - (scale * (bounds[1][1] + bounds[0][1])) / 2 + 80;
+      width / 2 - (scale * (bounds[1][0] + bounds[0][0])) / 2 + 30;
+    const yoffset = height / 2 - (scale * (bounds[1][1] + bounds[0][1])) / 2;
 
     projection2.scale(scale).translate([xoffset, yoffset]);
 
-    console.log("xoffset_inmap", xoffset);
-    console.log("yoffset_inmap", yoffset);
+    //console.log("xoffset_inmap", xoffset);
+    //console.log("yoffset_inmap", yoffset);
 
     // zoom 기능 설정
     const zoom = d3
       .zoom()
       .scaleExtent([0.5, 4])
-      .on("zoom", function (event) {
-        console.log("zoom event", event);
-        svg.attr("transform", event.transform);
-      });
+      .translateExtent([
+        [0, 0],
+        [800, 600],
+      ]);
+
     const box = d3.select("#mapBox");
     // svg 형성하기
     const svg = box
@@ -135,6 +135,11 @@ export default function Map01() {
       .attr("height", height2);
 
     const g = svg.append("g").call(zoom);
+
+    zoom.on("zoom", function (event) {
+      //console.log("zoom event", event);
+      g.attr("transform", event.transform);
+    });
 
     // svg path 형성하기
     g.selectAll("path")
@@ -180,6 +185,7 @@ export default function Map01() {
     const rlst = await CommonService.instance.downloadGeojsonFile(
       bringToken.token
     );
+    console.log("download", rlst);
     const convert = JSON.parse(rlst[0].geojson);
 
     setGeoData({
@@ -195,7 +201,7 @@ export default function Map01() {
       bringToken.token
     );
     const convert = JSON.parse(rlst[0].geojson);
-    //console.log("download", rlst[0]);
+    //console.log("download_sm", rlst);
     //console.log("convert", convert);
 
     setSmGeoData({
@@ -241,7 +247,11 @@ export default function Map01() {
       </div>
       <div>
         <div>도시이름</div>
-        <div className="box-line overflow-hidden" id="mapBox"></div>
+        <div
+          className="box-line overflow-hidden"
+          id="mapBox"
+          style={{ width: "800px", height: "600px" }}
+        ></div>
         <div>
           <button className="btn btn-primary" id="zoom-center">
             center

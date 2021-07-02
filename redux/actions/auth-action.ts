@@ -11,7 +11,7 @@ export const AuthloginAction = createAsyncThunk<
   any,
   { rejectValue: rejectMessage }
 >("auth/login", async (data) => {
-  console.log("login action data", data);
+  //console.log("login action data", data);
   return data;
 });
 
@@ -26,7 +26,7 @@ export const KeycloakAction = createAsyncThunk<
   any,
   { rejectValue: rejectMessage }
 >("auth/keycloak-login", async (data) => {
-  console.log("keycloak-login data", data);
+  //console.log("keycloak-login data", data);
   return data;
 });
 

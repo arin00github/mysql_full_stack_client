@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 import jwt_decode from "jwt-decode";
-import { IJwt } from "../../../src/interface/common-interface";
+import { IJwt } from "../services/common-interface";
 
 export default class Utils {
   public static asyncTimeout(ms: number) {

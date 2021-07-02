@@ -45,8 +45,15 @@ export interface ICommonCommand {
   //리뷰 삭제
   deleteReviewItem(token?: string): Promise<any>;
 
-  //json파일 저장
+  //전국 지도 불러오기
   downloadGeojsonFile(token?: string): Promise<any>;
 
-  downloadSmGeojson(sending:{name?: string}, token?:string) : Promise<any>  
-} 
+  //세부 지도 불러오기
+  downloadSmGeojson(sending: { name?: string }, token?: string): Promise<any>;
+
+  //mssql 데이터 schema 불러오기
+  schemaRead(sending: { name?: string }, token?: string): Promise<any>;
+
+  //mssql 특정 schema 특정 table  내용 불러오기
+  tableInfoRead(sending: { tableName?: string }, token?: string): Promise<any>;
+}

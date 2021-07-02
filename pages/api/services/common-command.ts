@@ -1,5 +1,5 @@
 import Utils from "../common/utils";
-import { ICommonCommand } from "../../../src/interface/common-interface";
+import { ICommonCommand } from "./common-interface";
 import { Response, ResultMessage } from "../common/result-process";
 import { RestProcess } from "../common/rest-process";
 import { Json } from "sequelize/types/lib/utils";
@@ -21,6 +21,9 @@ export class CommonCommand implements ICommonCommand {
   private deleteUserPath = `${this.server_url}/api/users/delete`;
   private deleteCampPath = `${this.server_url}/api/camp/delete`;
   private deleteReviewPath = `${this.server_url}/api/review/delete`;
+
+  private mssqlfromSchema = `${this.server_url}/api/data/schema`;
+  private mssqlfromTable = `${this.server_url}/api/data/table`;
 
   async getUserList(token: string): Promise<ResultMessage<any> | undefined> {
     try {
@@ -302,13 +305,67 @@ export class CommonCommand implements ICommonCommand {
         body,
         headers
       );
-      //console.log(rlst);
+      console.log(rlst);
 
       if (rlst) {
         return rlst;
       }
     } catch (err) {
       console.log("api error:", err);
+    }
+  }
+
+  async schemaRead(
+    sending: { name?: string },
+    token: string
+  ): Promise<any | undefined> {
+    try {
+      const urlPath = `${this.mssqlfromSchema}`;
+      const method = "POST";
+      const body = JSON.stringify(sending);
+      const headers = Utils.nonAuthMakeHeaders(method, urlPath, body, token);
+
+      const rlst = await RestProcess.excuteJson<any>(
+        urlPath,
+        method,
+        body,
+        headers
+      );
+
+      if (rlst) {
+        return rlst;
+      }
+    } catch (err) {
+      console.log("api error", err);
+      return undefined;
+    }
+  }
+
+  async tableInfoRead(
+    sending: { tableName: string },
+    token: string
+  ): Promise<any | undefined> {
+    try {
+      const urlPath = `${this.mssqlfromTable}`;
+      const method = "POST";
+      const body = JSON.stringify(sending);
+      const headers = Utils.nonAuthMakeHeaders(method, urlPath, body, token);
+
+      const rlst = await RestProcess.excuteJson<any>(
+        urlPath,
+        method,
+        body,
+        headers
+      );
+
+      console.log("tableInfoRead api", rlst);
+
+      if (rlst) {
+        return rlst;
+      }
+    } catch (err) {
+      console.log("tableInfoRead error", err);
+      return undefined;
     }
   }
 }

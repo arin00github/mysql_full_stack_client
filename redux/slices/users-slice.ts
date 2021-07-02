@@ -53,7 +53,7 @@ export const fetchUser =
         },
       });
       dispatch(getUserAction(result.data));
-      console.log("fetchUser", result);
+      //console.log("fetchUser", result);
     } catch (err) {
       console.log(err);
     }

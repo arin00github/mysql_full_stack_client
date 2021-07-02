@@ -14,11 +14,18 @@ export default function Aside({ handleLogout }: IAsideProps) {
     { url: "/view/add-users", title: "Add-Users", id: "menu0002" },
     { url: "/view/add-bootcamp", title: "Add-bootcamp", id: "menu0003" },
     { url: "/view/my-page", title: "My-Page", id: "menu0004" },
+    { url: "/database/example01", title: "mssql", id: "menu0015" },
   ];
   const D3_Sample = [
-    { url: "/d3/basic", title: "basic", id: "menu0008" },
     { url: "/d3/map", title: "map", id: "menu0009" },
     { url: "/d3/zoom", title: "zoom", id: "menu0010" },
+  ];
+
+  const chart = [
+    { url: "/weather/chart01", title: "chart01", id: "menu0012" },
+    { url: "/weather/chart02", title: "chart02", id: "menu0013" },
+    { url: "/weather/chart03", title: "chart04", id: "menu0014" },
+    { url: "/weather/chart04", title: "chart05", id: "menu0015" },
   ];
 
   const user = useSelector((state: State) => state.users);
@@ -47,6 +54,16 @@ export default function Aside({ handleLogout }: IAsideProps) {
         })}
         <li className="subject">D3</li>
         {D3_Sample.map((menu) => {
+          return (
+            <li key={menu.id}>
+              <Link href={menu.url}>
+                <a href={menu.url}>{menu.title}</a>
+              </Link>
+            </li>
+          );
+        })}
+        <li className="subject">D3</li>
+        {chart.map((menu) => {
           return (
             <li key={menu.id}>
               <Link href={menu.url}>

@@ -1,4 +1,4 @@
-import { ICommonCommand } from "../../../src/interface/common-interface";
+import { ICommonCommand } from "./common-interface";
 import { CommonCommand } from "./common-command";
 
 export class CommonService {

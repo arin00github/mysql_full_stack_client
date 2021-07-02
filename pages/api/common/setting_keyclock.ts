@@ -5,9 +5,9 @@ import { getCookie, parseCookies } from "./cookies";
 const Keycloak = typeof window !== "undefined" ? require("keycloak-js") : null;
 
 let keyClockConfig: Keycloak.KeycloakConfig = {
-  realm: "coffee",
+  realm: "frontend",
   url: "http://localhost:8080/auth",
-  clientId: "latte-client",
+  clientId: "arin-client",
 };
 
 export const keycloak: KeycloakInstance =

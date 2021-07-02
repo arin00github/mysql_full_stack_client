@@ -18,7 +18,7 @@ export default function Layout({ children }: ILayoutProps) {
   const dispatch = useDispatch();
 
   const getKeycloak = useSelector<RootState, any>((state) => state.users);
-  console.log(getKeycloak);
+  //console.log(getKeycloak);
 
   const handleLogout = () => {
     dispatch(AuthlogoutAction);

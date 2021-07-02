@@ -138,8 +138,6 @@ export default function Map01() {
           .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
         d3.pointer(event, svg.node())
       );
-
-    console.log("current_scale", d3.zoomTransform(svgBox).k);
   }
 
   function translateTolabel(d) {
@@ -187,21 +185,7 @@ export default function Map01() {
           <svg id="canvas"></svg>
         </div>
       </div>
-      <div>
-        {/*<div>도시이름</div>
-        <div className="box-line overflow-hidden" id="mapBox"></div>
-        <div>
-          <button className="btn btn-primary" id="zoom-center">
-            center
-          </button>
-          <button className="btn btn-primary" id="zoom-out">
-            zoom-out
-          </button>
-          <button className="btn btn-primary" id="zoom-in">
-            zoom-in
-          </button>
-        </div> */}
-      </div>
+      <div></div>
     </div>
   );
 }

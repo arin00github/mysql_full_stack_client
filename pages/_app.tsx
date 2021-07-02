@@ -1,6 +1,6 @@
 import React from "react";
-import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/globals.css";
 import { AppContext, AppProps } from "next/app";
 import Layout from "../src/components/Layout";
 
@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
 
   const dispatch = useDispatch();
   const store = useStore();
-  console.log("store", store);
+  //console.log("store", store);
 
   useEffect(() => {}, []);
 
