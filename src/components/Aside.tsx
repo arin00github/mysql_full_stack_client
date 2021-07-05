@@ -20,10 +20,13 @@ export default function Aside({ handleLogout }: IAsideProps) {
   ];
 
   const chart = [
-    { url: "/weather/chart01", title: "chart01", id: "menu0012" },
-    { url: "/weather/chart02", title: "chart02", id: "menu0013" },
-    { url: "/weather/chart03", title: "chart04", id: "menu0014" },
-    { url: "/weather/chart04", title: "chart05", id: "menu0015" },
+    { url: "/weather/barChart01", title: "barChart01", id: "menu0012" },
+    { url: "/weather/barChart02", title: "barChart02", id: "menu0013" },
+    { url: "/weather/barChart03", title: "barChart03", id: "menu0014" },
+    { url: "/weather/LineChart01", title: "LineChart01", id: "menu0015" },
+    { url: "/weather/LineChart02", title: "LineChart02", id: "menu0016" },
+    { url: "/weather/peiChart01", title: "pieChart01", id: "menu0017" },
+    { url: "/weather/donutChart01", title: "donutChart01", id: "menu0018" },
   ];
 
   const user = useSelector((state: State) => state.users);

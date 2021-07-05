@@ -16,11 +16,13 @@ export interface IbarChartProps {
   maxYvalue: number;
   name: string;
   color?: string;
+  domain?: string[];
+  barLabel?: boolean;
 }
 
 interface chartValue {
-  Country: string;
-  Value: number;
+  key: string;
+  value: number;
 }
 
 /**
@@ -38,14 +40,13 @@ export default function BarChart({
   margin,
   maxYvalue,
   name,
+  barLabel,
 }: IbarChartProps) {
   const { top, bottom, left, right } = margin;
   const width = div.divWidth - left - right;
   const height = div.divHeight - top - bottom;
 
   const drawMap = () => {
-    console.log("draw Map");
-
     const svg = d3
       .select(`#${name}`)
       .append("svg")
@@ -56,18 +57,18 @@ export default function BarChart({
 
     const y = d3.scaleLinear().domain([0, maxYvalue]).range([height, 0]);
     svg.append("g").call(d3.axisLeft(y));
-    console.log("data", data);
 
     const x = d3
       .scaleBand()
       .domain(
         data.map((d) => {
-          return d.Country;
+          return d.key;
         })
       )
       .range([width, 0])
       .padding(0.2);
 
+    //X축 설정
     svg
       .append("g")
       .attr("transform", `translate(0, 360)`)
@@ -75,16 +76,18 @@ export default function BarChart({
       .selectAll("text")
       .attr("transform", "translate(-10, 0)rotate(-45)")
       .style("text-anchor", "end");
+
+    //그래프 막대 그리기
     svg
       .selectAll("rect")
-      .data(data.splice(0, 9))
+      .data(data)
       .enter()
       .append("rect")
-      .attr("transform", (d: chartValue) => {
-        return `translate(0, 0 )`;
-      })
+      // .attr("transform", (d: chartValue) => {
+      //   return `translate(0, 0 )`;
+      // })
       .attr("x", (d: chartValue) => {
-        return x(d.Country);
+        return x(d.key);
       })
       .attr("y", (d: chartValue) => {
         return y(0);
@@ -93,7 +96,29 @@ export default function BarChart({
       .attr("height", (d: chartValue) => {
         return height - y(0);
       })
-      .attr("fill", "#ff0000");
+      .attr("fill", "#0c9bb4");
+
+    if (barLabel === true) {
+      svg
+        .selectAll(".label")
+        .data(data.splice(0, 8))
+        .enter()
+        .append("text")
+        .classed("label", true)
+        .attr("x", (d: chartValue) => {
+          return x(d.key) + x.bandwidth() / 2;
+        })
+        .attr("dx", 0)
+        .attr("y", (d: chartValue) => {
+          return y(d.value) - 15;
+        })
+        .attr("text-anchor", "middle")
+        .text((d: chartValue) => {
+          console.log("d", d.value);
+          return d.value;
+        })
+        .attr("font-size", "14px");
+    }
 
     //Animation
     svg
@@ -101,10 +126,10 @@ export default function BarChart({
       .transition()
       .duration(700)
       .attr("y", (d: chartValue) => {
-        return y(d.Value);
+        return y(d.value);
       })
       .attr("height", (d: chartValue) => {
-        return height - y(d.Value);
+        return height - y(d.value);
       });
     //낱개씩 애니메이션 작동
     // .delay((d, i) => {
@@ -118,7 +143,7 @@ export default function BarChart({
 
   useEffect(() => {
     if (data !== undefined) {
-      console.log("dawchart");
+      console.log("bar-drawChart");
       drawMap();
     }
   }, [data]);

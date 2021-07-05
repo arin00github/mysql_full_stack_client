@@ -180,3 +180,8 @@ text-decoration: none;
   flex-basis: calc((100% - 30px)/2);
   margin-right: 30px;
 }
+
+
+.chart {
+  min-height: 450px;
+}
