@@ -58,7 +58,7 @@ export default function Chart02() {
       .then((res) => {
         console.log("weather", res.data.list);
         const dataArray = res.data.list;
-        const resultArray2 = dataArray.slice(0, 10).map((item) => {
+        const resultArray2 = dataArray.slice(0, 8).map((item) => {
           return {
             key: item.dt_txt.substr(11, 2),
             value: item.main.humidity,

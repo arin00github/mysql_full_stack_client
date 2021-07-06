@@ -25,7 +25,7 @@ export default function Aside({ handleLogout }: IAsideProps) {
     { url: "/weather/barChart03", title: "barChart03", id: "menu0014" },
     { url: "/weather/LineChart01", title: "LineChart01", id: "menu0015" },
     { url: "/weather/LineChart02", title: "LineChart02", id: "menu0016" },
-    { url: "/weather/peiChart01", title: "pieChart01", id: "menu0017" },
+    { url: "/weather/pieChart01", title: "pieChart01", id: "menu0017" },
     { url: "/weather/donutChart01", title: "donutChart01", id: "menu0018" },
   ];
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as d3 from "d3";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import Header from "../../src/components/layout/header";
 
 export default function Chart01() {
   const [multiData, setMultiData] = useState({
@@ -91,7 +92,7 @@ export default function Chart01() {
 
   return (
     <div>
-      <h2>Weather Chart</h2>
+      <Header title="D3 BARCHART" />
       <div id="chart-multi"></div>
       <div id="chart2"></div>
       <div id="chart3"></div>

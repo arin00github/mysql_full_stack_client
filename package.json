@@ -43,7 +43,7 @@
     "topojson": "^3.0.2"
   },
   "devDependencies": {
-    "@types/d3": "^6.7.0",
+    "@types/d3": "^6.7.5",
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.3",
     "@types/topojson": "^3.2.3",
