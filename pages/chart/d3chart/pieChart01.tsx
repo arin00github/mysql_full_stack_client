@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import React from "react";
-import Header from "../../src/components/layout/header";
+import Header from "../../../src/components/layout/header";
 import { useEffect } from "react";
 
 export default function PieChart01() {

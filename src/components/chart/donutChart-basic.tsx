@@ -18,7 +18,12 @@ export default function DonutChartBasic({
   const radius = Math.min(width, height) / 2 - margin;
   const colorRange = color;
 
-  const drawDonutChart = (data) => {
+  const drawDonutChart = (insertData) => {
+    //기존에 있는 svgchart를 지운다.
+    d3.select(`#${name}`).select("svg").remove();
+    console.log("03.draw donutchart");
+
+    //svgchart를 새로 생성
     const svg = d3
       .select(`#${name}`) // rencer부분이 다 초기실행 되고나서 select가 읽혀야 한다. 그렇지 않으면 id가 읽히지 않음
       .append("svg")
@@ -27,8 +32,10 @@ export default function DonutChartBasic({
       .append("g")
       .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-    console.log("draw donut chart");
-    const color = d3.scaleOrdinal().domain(Object.keys(data)).range(colorRange);
+    const color = d3
+      .scaleOrdinal()
+      .domain(Object.keys(insertData))
+      .range(colorRange);
 
     //console.log("color", color);
 
@@ -39,7 +46,7 @@ export default function DonutChartBasic({
         //console.log("value", d);
         return d.value;
       });
-    let dataRemake = Object.entries(data).map((it) => {
+    let dataRemake = Object.entries(insertData).map((it) => {
       return { key: it[0], value: it[1] };
     });
 
@@ -56,9 +63,8 @@ export default function DonutChartBasic({
       .innerRadius(radius * 0.9)
       .outerRadius(radius * 0.9);
 
-    const slice = svg
-      .selectAll("path")
-      .data(data_ready)
+    const slice = svg.selectAll("path").data(data_ready);
+    slice
       .enter()
       .append("path")
       .attr("d", arc)
@@ -70,9 +76,9 @@ export default function DonutChartBasic({
       .style("stroke-width", "2px")
       .style("opacity", 0.7);
 
-    const polyline = svg
-      .selectAll("polyline")
-      .data(data_ready)
+    const polyline = svg.selectAll("polyline").data(data_ready);
+
+    polyline
       .enter()
       .append("polyline")
       .attr("stroke", "black")
@@ -87,9 +93,9 @@ export default function DonutChartBasic({
         return [posA, posB, posC];
       });
 
-    svg
-      .selectAll("text")
-      .data(data_ready)
+    const label = svg.selectAll("text").data(data_ready);
+
+    label
       .enter()
       .append("text")
       .text((d) => {
@@ -109,9 +115,10 @@ export default function DonutChartBasic({
   };
 
   useEffect(() => {
-    console.log("useEffect", "getData!!");
+    console.log("02.useEffect getData!!");
+
     drawDonutChart(data);
-  }, []);
+  }, [data]);
 
   return <div id={name}></div>;
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as d3 from "d3";
 import React, { useEffect, useState } from "react";
-import Header from "../../src/components/layout/header";
+import Header from "../../../src/components/layout/header";
 
 export default function Chart01() {
   const [multiData, setMultiData] = useState({

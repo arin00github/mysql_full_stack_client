@@ -1,9 +1,9 @@
 import axios from "axios";
 import * as d3 from "d3";
 import React, { useEffect, useState } from "react";
-import BarChartFlex from "../../src/components/chart/barchart_flex";
-import BarChart from "../../src/components/chart/barchart_solid";
-import Header from "../../src/components/layout/header";
+import BarChartFlex from "../../../src/components/chart/barchart_flex";
+import BarChart from "../../../src/components/chart/barchart_solid";
+import Header from "../../../src/components/layout/header";
 
 export interface IWeatherProps {
   dt_txt: string;

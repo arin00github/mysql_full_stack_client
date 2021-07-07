@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { useSelector, useStore } from "react-redux";
+import { useSelector, useStore, useDispatch } from "react-redux";
+import { fetchCurrentData, keepCurrent } from "../../redux/slices/chart-slice";
+import Header from "../../src/components/layout/header";
 import { IAuthInfo } from "../../src/interface/auth-interface";
 import { CommonService } from "../api/services/common-service";
+
 export default function Example01() {
+  const dispatch = useDispatch();
   const [word, setWord] = useState({
     schema: "",
     table: "",
@@ -20,6 +24,12 @@ export default function Example01() {
     hadong: 0,
     mokpo: 0,
   });
+
+  const [selectData, setSelectData] = useState({
+    current: undefined,
+    title: "",
+  });
+
   const bringToken = useSelector((state: { auth: IAuthInfo }) => state.auth);
 
   const readData = async (region) => {
@@ -30,7 +40,7 @@ export default function Example01() {
       sending,
       bringToken.token
     );
-    console.log("readData", result);
+    //console.log("readData", result);
     setData({
       ...data,
       schemaList: result,
@@ -50,14 +60,31 @@ export default function Example01() {
       ...data,
       tableInfo: result,
     });
+    setSelectData({
+      ...selectData,
+      current: result.recordset,
+      title: word.table,
+    });
   };
-  console.log(word);
+  const keepReduxData = () => {
+    if (data.tableInfo !== undefined) {
+      dispatch(keepCurrent(selectData));
+      setSelectData({
+        ...selectData,
+        current: undefined,
+        title: "",
+      });
+    }
+  };
+  //console.log(word);
 
   useEffect(() => {
     if (word.schema !== "") {
+      console.log("readschema");
       readData(word.schema);
     }
     if (word.schema !== "" && word.table !== "") {
+      console.log("readtable");
       readTableData(word.table);
     }
   }, [word.schema, word.table]);
@@ -66,8 +93,8 @@ export default function Example01() {
 
   return (
     <div id="mssql-page">
-      <h2 style={{ fontWeight: "bold" }}>MSSQL Example</h2>
-      <div className="pb-3 pt-3">
+      <Header title="MSSQL Example" />
+      <div className="pb-4 pt-3">
         {Object.keys(count).map((item) => {
           return (
             <Button
@@ -85,6 +112,16 @@ export default function Example01() {
             </Button>
           );
         })}
+        {selectData.current !== undefined && (
+          <Button
+            variant="danger"
+            onClick={() => {
+              keepReduxData();
+            }}
+          >
+            keep Data
+          </Button>
+        )}
       </div>
       <div className="d-flex">
         <div className="schema-box">
@@ -134,8 +171,8 @@ export default function Example01() {
             </thead>
             <tbody>
               {data.tableInfo !== undefined &&
-                data.tableInfo.recordset.map((item) => (
-                  <tr>
+                data.tableInfo.recordset.map((item, idx) => (
+                  <tr key={idx + 110}>
                     {Object.values(item)
                       .slice(0, 5)
                       .map((item) => (

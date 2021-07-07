@@ -58,6 +58,14 @@ a{
   border: 1px solid #888;
 }
 
+table tr th, tr td {
+  line-height: 1.5rem;
+  height: 1.5rem;
+}
+
+
+
+/***************** CSS style  *****************/
 
 #wrap {
   width: 100%;
@@ -69,8 +77,9 @@ a{
   width: 240px;
   flex: none;
   height: 100vh;
-  background-color: rgb(58, 58, 155);
+  background-color: rgb(0, 0, 0);
   color: white;
+  overflow-y: scroll;
 }
 
 #wrap #main {
@@ -90,23 +99,30 @@ a{
   border-top: 1px solid white;
 }
 #aside .nav li{
-  line-height: 2rem;
-  height: 2rem;
+  line-height: 1.8rem;
+  height: 1.8rem;
   padding-left: 30px;
   font-size: 14px;
+  
 }
 #aside .nav li:hover {
-  background-color: rgb(101, 101, 252);
+  background-color: rgba(255, 255, 255, 0.062);
 }
 
 #aside .nav li a{
 color: white;
 text-decoration: none;
+opacity: 0.7;
 }
 #aside .nav li.subject{
-  height: 3.5rem;
-  line-height: 3.5rem;
+  height: 3.2rem;
+  line-height: 3.2rem;
 }
+
+#aside .nav li.subject:hover a{
+  opacity: 1;
+}
+
 #aside .nav li.subject a, #aside .nav li.subject{
   font-weight: 700;
   font-size: 17px;

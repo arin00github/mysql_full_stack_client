@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import React, { useState, useEffect } from "react";
-import LineChart01 from "../../src/components/chart/linechart_solid";
-import Header from "../../src/components/layout/header";
+import LineChart01 from "../../../src/components/chart/linechart_solid";
+import Header from "../../../src/components/layout/header";
 
 interface IlineChartProps {
   date: Date;

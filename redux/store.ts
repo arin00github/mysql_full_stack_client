@@ -14,6 +14,7 @@ import rootReducer, { RootState } from "./slices/index";
 import thunkMiddleware from "redux-thunk";
 import users from "./slices/users-slice";
 import auth from "./slices/auth-slice";
+import chart from "./slices/chart-slice";
 
 const bindMiddleWare = (middleware: Middleware[]): StoreEnhancer => {
   // Middleware, StoreEnhancer등을 정의해 주지 않으면 스프레드문법을 쓸 수 없다고 나온다.
@@ -38,7 +39,7 @@ const makeStore = ({ isServer }: any) => {
 
     const persistConfig = {
       key: "nextjs",
-      whitelist: [users, auth],
+      whitelist: [users, auth, chart],
       storage,
     };
     const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -54,6 +55,7 @@ const makeStore = ({ isServer }: any) => {
   }
 };
 
+//export type RootState = ReturnType<typeof store.getState>;
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppState = ReturnType<AppStore["getState"]>;
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
