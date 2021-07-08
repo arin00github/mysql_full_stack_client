@@ -78,6 +78,7 @@ export default function EChartLine() {
       toolbox: {
         show: true,
         feature: {
+          //기능버튼
           dataZoom: {
             yAxisIndex: "none",
           },
@@ -101,6 +102,7 @@ export default function EChartLine() {
         },
       },
       series: [
+        //series 데이터, 차트타입, 마크포인트, 마크라인
         {
           name: "기온",
           type: "line",
@@ -172,6 +174,7 @@ export default function EChartLine() {
       bottom: 50,
     },
     xAxis: [
+      // 객체가 2개들어간다.
       {
         type: "category",
         axisTick: {
@@ -184,6 +187,7 @@ export default function EChartLine() {
           },
         },
         axisPointer: {
+          //hover할시 생기는 좌표값 tooltip
           label: {
             formatter: function (params) {
               return (
@@ -197,6 +201,7 @@ export default function EChartLine() {
           },
         },
         data: [
+          //triger 되는 key 값들을 모은 배열
           "2016-1",
           "2016-2",
           "2016-3",
@@ -282,7 +287,7 @@ export default function EChartLine() {
       },
     ],
   };
-  console.log("lineOption", lineOption);
+  //console.log("lineOption", lineOption);
 
   useEffect(() => {
     if (weatherData !== undefined) {
@@ -291,7 +296,7 @@ export default function EChartLine() {
   }, [weatherData]);
 
   useEffect(() => {
-    console.log("data download");
+    //console.log("data download");
     getDataAPI();
   }, []);
 

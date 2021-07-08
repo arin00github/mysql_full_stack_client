@@ -25,6 +25,8 @@ export class CommonCommand implements ICommonCommand {
   private mssqlfromSchema = `${this.server_url}/api/data/schema`;
   private mssqlfromTable = `${this.server_url}/api/data/table`;
 
+  private getNationWideMapPath = `${this.server_url}/api/map/nationwide`;
+
   async getUserList(token: string): Promise<ResultMessage<any> | undefined> {
     try {
       const urlPath = `${this.getUserListPath}`;
@@ -366,6 +368,33 @@ export class CommonCommand implements ICommonCommand {
     } catch (err) {
       console.log("tableInfoRead error", err);
       return undefined;
+    }
+  }
+
+  async getNationWideMap(token: string): Promise<any | undefined> {
+    try {
+      const urlPath = `${this.getNationWideMapPath}`;
+      const method = "GET";
+      const headers = Utils.nonAuthMakeHeaders(
+        method,
+        urlPath,
+        undefined,
+        token
+      );
+
+      const rlst = await RestProcess.excuteJson<any>(
+        urlPath,
+        method,
+        undefined,
+        headers
+      );
+
+      if (rlst) {
+        console.log(rlst);
+        return rlst;
+      }
+    } catch (err) {
+      console.log("getNationwidemap error", err);
     }
   }
 }

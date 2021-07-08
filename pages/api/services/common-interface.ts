@@ -56,4 +56,7 @@ export interface ICommonCommand {
 
   //mssql 특정 schema 특정 table  내용 불러오기
   tableInfoRead(sending: { tableName?: string }, token?: string): Promise<any>;
+
+  //전국지도 하나로 불러오기
+  getNationWideMap(token: string): Promise<any>;
 }
