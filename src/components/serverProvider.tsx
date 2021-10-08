@@ -1,5 +1,5 @@
-import { Component } from "react";
-import { ServerContext, ServerState } from "../../pages/api/common/context";
+import { Component } from 'react';
+import { ServerContext, ServerState } from '../../pages/api/common/context';
 
 export class ServerProvider extends Component<ServerState, ServerState> {
   state = {
@@ -14,8 +14,7 @@ export class ServerProvider extends Component<ServerState, ServerState> {
         value={{
           isAuthenticated,
           isServer,
-          setIsAuthenticated: (isAuthenticated: string) =>
-            this.setState({ isAuthenticated }),
+          setIsAuthenticated: (isAuthenticated: string) => this.setState({ isAuthenticated }),
         }}
       >
         {this.props.children}

@@ -1,11 +1,11 @@
-import { IUserCollect } from "../../src/interface/user-interface";
-import users from "./users-slice";
-import auth from "./auth-slice";
-import chart from "./chart-slice";
-import { HYDRATE } from "next-redux-wrapper";
-import { AnyAction, combineReducers } from "redux";
-import { IAuthInfo } from "../../src/interface/auth-interface";
-import { ICurrentData } from "../../src/interface/chart-interface";
+import { IUserCollect } from '../../src/interface/user-interface';
+import users from './users-slice';
+import auth from './auth-slice';
+import chart from './chart-slice';
+import { HYDRATE } from 'next-redux-wrapper';
+import { AnyAction, combineReducers } from 'redux';
+import { IAuthInfo } from '../../src/interface/auth-interface';
+import { ICurrentData } from '../../src/interface/chart-interface';
 
 export interface State {
   users: IUserCollect;
@@ -16,7 +16,7 @@ export interface State {
 const rootReducer = (state: State | undefined, action: AnyAction) => {
   switch (action.type) {
     case HYDRATE:
-      console.log("HYDRATE");
+      console.log('HYDRATE');
       return action.payload;
 
     default: {

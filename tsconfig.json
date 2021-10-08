@@ -7,22 +7,28 @@
       "esnext"
     ],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true, /* Skip type checking of declaration files. */
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "declaration": true,
+    "jsxImportSource": "@emotion/react",
+    "jsx": "preserve",
+    "typeRoots": [
+      "node_modules/@types",
+      "src/typings"
+    ],
+    "noEmit": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "redux/store3.ts"  ],
+  ],
   "exclude": [
     "node_modules"
   ]

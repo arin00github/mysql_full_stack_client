@@ -1,24 +1,20 @@
-import { useRouter } from "next/router";
-import { ReactNode, useEffect, useState } from "react";
-import { useDispatch, useStore } from "react-redux";
-import { putKeycloakTotal } from "../../redux/feature/auth";
-import { keycloak } from "../../pages/api/common/setting_keyclock";
-import { KeycloakInstance } from "keycloak-js";
+import { useRouter } from 'next/router';
+import { ReactNode, useEffect, useState } from 'react';
+import { useDispatch, useStore } from 'react-redux';
 
-import {
-  AuthloginAction,
-  KeycloakAction,
-} from "../../redux/actions/auth-action";
+import { keycloak } from '../../pages/api/common/setting_keyclock';
+import { KeycloakInstance } from 'keycloak-js';
 
-import { AuthTokenAction } from "../../redux/actions/auth-action";
-import { fetchUser } from "../../redux/slices/users-slice";
+import { AuthloginAction, KeycloakAction } from '../../redux/actions/auth-action';
+
+import { AuthTokenAction } from '../../redux/actions/auth-action';
+import { fetchUser } from '../../redux/slices/users-slice';
 
 export interface KeycloakProps {
   children: ReactNode;
 }
 
-export const Keycloak =
-  typeof window !== "undefined" ? require("keycloak-js") : null;
+export const Keycloak = typeof window !== 'undefined' ? require('keycloak-js') : null;
 
 function KeycloakComponent({ children }: KeycloakProps) {
   const dispatch = useDispatch();
@@ -31,8 +27,9 @@ function KeycloakComponent({ children }: KeycloakProps) {
   const KeyclockInstance = keycloak;
 
   const initiateKeycloak = () => {
+    console.log('keycloak', keycloak);
     if (Keycloak !== null) {
-      KeyclockInstance.init({ onLoad: "login-required" })
+      KeyclockInstance.init({ onLoad: 'login-required' })
         .then((authenticated) => {
           //console.log(authenticated);
           setKeyInfo({
@@ -46,12 +43,12 @@ function KeycloakComponent({ children }: KeycloakProps) {
           dispatch(AuthloginAction(true)); //isLogined true
           dispatch(AuthTokenAction(KeyclockInstance.token));
           const targetName = KeyclockInstance.tokenParsed.preferred_username;
-          console.log("targetName", targetName);
+          console.log('targetName', targetName);
           dispatch(fetchUser(targetName));
         })
         .catch((err) => {
           console.log(err);
-          router.push({ pathname: "/404", query: { message: err } });
+          router.push({ pathname: '/404', query: { message: err } });
         });
       //const findname = KeyclockInstance.tokenParsed.preferred_username;
 
@@ -63,6 +60,7 @@ function KeycloakComponent({ children }: KeycloakProps) {
   useEffect(() => {
     initiateKeycloak();
   }, []);
+  console.log('keyinfo.keystate', keyinfo.keystate);
 
   if (keyinfo.keystate) {
     if (keyinfo.authenticated) {

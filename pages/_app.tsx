@@ -1,19 +1,16 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/globals.css";
-import { AppContext, AppProps } from "next/app";
-import Layout from "../src/components/Layout";
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/globals.css';
+import { AppContext, AppProps } from 'next/app';
+import Layout from '../src/components/Layout';
 
-import KeycloakComponent from "../src/components/keycloakComponent";
-import { wrapper } from "../redux/store";
-import { useDispatch, useSelector, useStore } from "react-redux";
-import { useEffect } from "react";
-import {
-  keycloak,
-  checkIfUserAuthenticated,
-} from "./api/common/setting_keyclock";
-import { AppContextType } from "next/dist/next-server/lib/utils";
-import { ServerProvider } from "../src/components/serverProvider";
+import KeycloakComponent from '../src/components/keycloakComponent';
+import { wrapper } from '../redux/store';
+import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useEffect } from 'react';
+import { keycloak, checkIfUserAuthenticated } from './api/common/setting_keyclock';
+import { AppContextType } from 'next/dist/next-server/lib/utils';
+import { ServerProvider } from '../src/components/serverProvider';
 
 interface InitialProps {
   cookies: unknown;

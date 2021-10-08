@@ -1,17 +1,13 @@
-import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import Head from 'next/head';
+import React, { ReactNode, useEffect, useState } from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store3";
-import { KeycloakInstance } from "keycloak-js";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store3';
+import { KeycloakInstance } from 'keycloak-js';
 
 export default function Home() {
-  const getKeycloak = useSelector<RootState, KeycloakInstance>(
-    (state) => state.users.keycloakInfo
-  );
+  const getKeycloak = useSelector<RootState, KeycloakInstance>((state) => state.users.keycloakInfo);
   //console.log(getKeycloak.tokenParsed.preferred_username);
-
-  const [name, setName] = useState("");
 
   return (
     <div>
@@ -24,16 +20,13 @@ export default function Home() {
       <div className="container mt-3">
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
           }}
         >
-          <h3>
-            {getKeycloak && getKeycloak.tokenParsed.preferred_username}님
-            안녕하세요
-          </h3>
+          <h3>{getKeycloak && getKeycloak.tokenParsed.preferred_username}님 안녕하세요</h3>
         </div>
       </div>
     </div>

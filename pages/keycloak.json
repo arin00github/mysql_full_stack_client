@@ -1,9 +1,9 @@
 {
-    "realm": "arin-world",
-    "auth-server-url": "http://localhost:8080/auth/",
-    "ssl-required": "external",
-    "resource": "arin-client",
-    "public-client": true,
-    "confidential-port": 0,
-    "clientId": "arin-client"
-  }
+  "realm": "arin-client",
+  "auth-server-url": "http://localhost:8080/auth/",
+  "ssl-required": "external",
+  "resource": "arin-client",
+  "public-client": true,
+  "confidential-port": 0,
+  "clientId": "arin-client"
+}

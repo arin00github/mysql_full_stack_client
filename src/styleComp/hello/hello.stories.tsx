@@ -1,11 +1,11 @@
-import React from "react";
-import Hello from "./hello";
-import { boolean, withKnobs, text } from "@storybook/addon-knobs";
-import { action } from "@storybook/addon-actions";
-import mdx from "./hello.mdx";
+import React from 'react';
+import Hello from './hello';
+import { boolean, withKnobs, text } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
+import mdx from './hello.mdx';
 
 export default {
-  title: "components/Hello",
+  title: 'components/Hello',
   component: Hello,
   decorators: [withKnobs], // 애드온 적용
   parameters: {
@@ -17,20 +17,13 @@ export default {
 };
 
 export const hello = () => {
-  const big = boolean("big", false);
-  const name = text("name", "Storybook");
-  return (
-    <Hello
-      name={name}
-      big={big}
-      onHello={action("onHello")}
-      onBye={action("onBye")}
-    />
-  );
+  const big = boolean('big', false);
+  const name = text('name', 'Storybook');
+  return <Hello name={name} big={big} onHello={action('onHello')} onBye={action('onBye')} />;
 };
 
 hello.story = {
-  name: "Default",
+  name: 'Default',
 };
 
 export const standard = () => <Hello name="Storybook" />;

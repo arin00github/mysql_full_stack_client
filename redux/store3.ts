@@ -1,14 +1,10 @@
-import {
-  configureStore,
-  getDefaultMiddleware,
-  EnhancedStore,
-} from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware, EnhancedStore } from '@reduxjs/toolkit';
 
-import { createWrapper, MakeStore } from "next-redux-wrapper";
+import { createWrapper, MakeStore } from 'next-redux-wrapper';
 
-import slices from "./slices";
+import slices from './slices';
 
-const devMode = process.env.NODE_ENV === "development";
+const devMode = process.env.NODE_ENV === 'development';
 
 const store = configureStore({
   reducer: slices,

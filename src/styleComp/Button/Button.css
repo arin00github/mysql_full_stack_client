@@ -1,0 +1,13 @@
+.btn {
+    outline: none;
+  border: none;
+  box-sizing: border-box;
+  height: 2rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  background: #20c997;
+  color: white;
+  border-radius: 0.25rem;
+  line-height: 1;
+  font-weight: 600;
+}

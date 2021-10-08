@@ -1,5 +1,3 @@
-import React from "react";
-
 type HelloProps = {
   /** 보여주고 싶은 이름 */
   name: string;
@@ -30,7 +28,7 @@ const Hello = ({ name, big, onBye, onHello }: HelloProps) => {
 };
 
 Hello.defaultProps = {
-  name: "Jack",
+  name: 'Jack',
   big: false,
 };
 
