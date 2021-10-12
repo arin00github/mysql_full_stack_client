@@ -39,6 +39,8 @@ export default function Aside({ handleLogout }: IAsideProps) {
     { url: '/chart/echart/page05', title: 'page05', id: 'menu0023' },
   ];
 
+  const component = [{ url: '/component/input', title: 'input', id: 'menu0031' }];
+
   const user = useSelector((state: State) => state.users);
 
   return (
@@ -56,6 +58,18 @@ export default function Aside({ handleLogout }: IAsideProps) {
         <li className="subject">MSSQL DATABASE</li>
         <div>
           {Mysql.map((menu) => {
+            return (
+              <li key={menu.id}>
+                <Link href={menu.url}>
+                  <a href={menu.url}>{menu.title}</a>
+                </Link>
+              </li>
+            );
+          })}
+        </div>
+        <li className="subject">COMPONENT</li>
+        <div>
+          {component.map((menu) => {
             return (
               <li key={menu.id}>
                 <Link href={menu.url}>

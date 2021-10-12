@@ -4,9 +4,6 @@ import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Aside from './Aside';
 import Main from './Main';
-import { selectAuth } from '../../redux/feature/auth/index';
-
-import users from '../../redux/slices/users-slice';
 import { RootState } from '../../redux/store3';
 import { AuthlogoutAction } from '../../redux/actions/auth-action';
 
