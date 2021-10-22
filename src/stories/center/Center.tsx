@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import './center.css';
+//import './center.css';
 
 interface CenterProps {
   children: ReactNode;

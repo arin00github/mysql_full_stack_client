@@ -18,7 +18,9 @@
     "isolatedModules": true,
     "declaration": true,
     "jsxImportSource": "@emotion/react",
-    "jsx": "preserve",
+    "jsx": "react-jsx",
+    // "jsxImportSource": "@emotion/react",
+    // "jsx": "preserve",
     "typeRoots": [
       "node_modules/@types",
       "src/typings"

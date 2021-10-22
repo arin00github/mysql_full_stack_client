@@ -1,5 +1,5 @@
 import React from 'react';
-import './input.css';
+//import './input.css';
 
 export interface InputProps {
   size: 'small' | 'medium' | 'large';
