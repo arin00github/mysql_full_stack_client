@@ -1,3 +1,7 @@
+import { addDecorator } from '@storybook/react';
+import Center from  '../src/stories/center/Center';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 export const parameters = {
@@ -9,7 +13,3 @@ export const parameters = {
     },
   },
 }
-
-
-
-//  addParameters, addDecorator 대신 export const parameter = {} 혹은 export const decorators = [] 사용을 권장
