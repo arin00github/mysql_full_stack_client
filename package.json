@@ -52,6 +52,7 @@
     "react-tooltip": "^4.2.19",
     "redux": "^4.1.0",
     "redux-persist": "^6.0.0",
+    "styled-components": "^5.3.3",
     "topojson": "^3.0.2",
     "webpack-merge": "^5.8.0"
   },
