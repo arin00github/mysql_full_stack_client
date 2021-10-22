@@ -17,6 +17,12 @@ export default function Aside({ handleLogout }: IAsideProps) {
     { url: '/typescript-study/study01', title: 'study01', id: 'menu0034' },
   ];
 
+  const storybook = [
+    { url: '/storybook/page01', title: 'page01', id: 'menu0045' },
+    { url: '/storybook/page02', title: 'page02', id: 'menu0046' },
+    { url: '/storybook/page03', title: 'page03', id: 'menu0047' },
+  ];
+
   const chart = [
     { url: '/chart/d3chart/barChart01', title: 'barChart01', id: 'menu0012' },
     { url: '/chart/d3chart/barChart02', title: 'barChart02', id: 'menu0013' },
@@ -39,7 +45,12 @@ export default function Aside({ handleLogout }: IAsideProps) {
     { url: '/chart/echart/page05', title: 'page05', id: 'menu0023' },
   ];
 
-  const component = [{ url: '/component/input', title: 'input', id: 'menu0031' }];
+  const component = [
+    { url: '/component/dom', title: 'dom', id: 'menu0034' },
+    { url: '/component/input', title: 'input', id: 'menu0031' },
+    { url: '/component/eventkeyboard', title: 'eventkeyboard', id: 'menu0032' },
+    { url: '/component/keyboard', title: 'keyboard', id: 'menu0033' },
+  ];
 
   const user = useSelector((state: State) => state.users);
 
@@ -58,6 +69,18 @@ export default function Aside({ handleLogout }: IAsideProps) {
         <li className="subject">MSSQL DATABASE</li>
         <div>
           {Mysql.map((menu) => {
+            return (
+              <li key={menu.id}>
+                <Link href={menu.url}>
+                  <a href={menu.url}>{menu.title}</a>
+                </Link>
+              </li>
+            );
+          })}
+        </div>
+        <li className="subject">STORYBOOK</li>
+        <div>
+          {storybook.map((menu) => {
             return (
               <li key={menu.id}>
                 <Link href={menu.url}>

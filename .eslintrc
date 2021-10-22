@@ -1,7 +1,7 @@
 {
     "parser": "@typescript-eslint/parser", // typescript 전용 parser로 지정
     "parserOptions": {
-      "project": "./client/tsconfig.json",
+      "project": "./tsconfig.json",
       "sourceType": "module"
     },
     "env": {
@@ -40,7 +40,8 @@
       "react/jsx-filename-extension": "off", // <> </>쓰는 것 방지
       "spaced-comment": "off", // 주석 쓰는 것 방지
       "no-unused-variable": "off",
-      "@typescript-eslint/no-non-null-assertion": "off"
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/ban-types":"off"
     },
     "settings": {
       "react": {
