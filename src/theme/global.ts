@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from 'styled-components';
+import { createGlobalStyle, css, DefaultTheme } from 'styled-components';
 
 export const bodyStyles = css`
   .storybook-button {
@@ -11,8 +11,8 @@ export const bodyStyles = css`
     line-height: 1;
   }
   .storybook-button--primary {
-    color: white;
-    background-color: ${({ theme }: any) => theme.btn.bg};
+    color: gray;
+    background-color: ${({ theme }) => theme.btn.bg};
   }
   .storybook-button--secondary {
     color: #333;
@@ -33,11 +33,12 @@ export const bodyStyles = css`
   }
 `;
 
-export const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle<DefaultTheme>`
 
 
 body {
    ${bodyStyles}
+    font-size: 23px;
  }
 
 

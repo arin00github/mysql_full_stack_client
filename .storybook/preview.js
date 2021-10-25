@@ -1,3 +1,5 @@
+
+import React from 'react';
 import { addDecorator } from '@storybook/react';
 import Center from  '../src/stories/center/Center';
 import { withThemesProvider } from "storybook-addon-styled-component-theme";
@@ -27,6 +29,20 @@ export const parameters = {
 //     </ThemeProvider>
 //   )
 // ]
+
+export const decorators = [
+  Story => {
+    console.log("story",Story)
+    return (
+      <>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <Story/>
+      </ThemeProvider>
+      </>
+    )
+  }
+  ]
 
 
 // const themes = [theme];

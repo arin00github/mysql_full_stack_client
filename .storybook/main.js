@@ -30,6 +30,13 @@ module.exports = {
 
     config.resolve.modules = [ path.resolve(__dirname, ".."), "node_modules", "styles", ];
 
+    config.plugins.push(
+      // Removing Speedy so the static storybook styling doesn't break
+      new webpack.DefinePlugin({
+        SC_DISABLE_SPEEDY: true
+      })
+    );
+
 
 
     return config;
