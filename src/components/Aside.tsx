@@ -46,7 +46,7 @@ export default function Aside({ handleLogout }: IAsideProps) {
   ];
 
   const component = [
-    { url: '/component/dom', title: 'dom', id: 'menu0034' },
+    { url: '/component/todo', title: 'todo', id: 'menu0034' },
     { url: '/component/input', title: 'input', id: 'menu0031' },
     { url: '/component/eventkeyboard', title: 'eventkeyboard', id: 'menu0032' },
     { url: '/component/keyboard', title: 'keyboard', id: 'menu0033' },
@@ -93,32 +93,6 @@ export default function Aside({ handleLogout }: IAsideProps) {
         <li className="subject">COMPONENT</li>
         <div>
           {component.map((menu) => {
-            return (
-              <li key={menu.id}>
-                <Link href={menu.url}>
-                  <a href={menu.url}>{menu.title}</a>
-                </Link>
-              </li>
-            );
-          })}
-        </div>
-
-        <li className="subject">SVGMAP</li>
-        <div>
-          {D3_Sample.map((menu) => {
-            return (
-              <li key={menu.id}>
-                <Link href={menu.url}>
-                  <a href={menu.url}>{menu.title}</a>
-                </Link>
-              </li>
-            );
-          })}
-        </div>
-
-        <li className="subject">CHART(d3)</li>
-        <div>
-          {chart.map((menu) => {
             return (
               <li key={menu.id}>
                 <Link href={menu.url}>
